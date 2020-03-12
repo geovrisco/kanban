@@ -2,8 +2,11 @@
 
 
 function errorHandler(err,request,response,next){
+    // console.log('masuk')
+    // console.log(err)
     if(err){
-        response.status(err.status).json(err)
+        // console.log('if')
+        response.status(err.status).json({message: err.msg})
     }
 }
 

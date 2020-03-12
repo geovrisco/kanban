@@ -3,141 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="./style/style.css">
+    <title>its Kantan Desu!</title>
+    <link rel="stylesheet" href="./style/style.css"> 
 </head>
-<body>
-    <div class="bg-info" style="padding-bottom: 1%;padding-top: 1%;">
-        <div class="row">
-            <div class="col d-flex justify-content-start">
-                <div style="margin-left: 5%;margin-right: 3%;">
-                    <h4>Home</h4>
-                </div>
+<body >
 
-                <div>
-                    <h4>About</h4>
-                </div>
+
+    
+
+
+    <div id="app">
+        <!-- SHOW NAVBAR -->
+        <div class="nav" style="display: flex; justify-content: center;" v-if="!isLogin" >
+            <div class="marginH3">
+                <h2 style="padding-top:10%; font-family: 'itu';" @click="showLoginHideRegister">Sign-In</h2>
             </div>
-            <div class="col d-flex justify-content-end">
-                <div style="margin-left: 5%; margin-right: 5%;">
-                    <h4>Sign In</h4>
-                </div>
+            <div class="marginH3">
+                <span class="navTitle">KanTan</span>
+            </div>
+            <div class="marginH3"  >
+                <h2 style="padding-top: 10%;font-family: itu;" @click="showRegisterHideLogin">Register</h2>
+            </div>
+        </div>
 
+        <div class="nav" style="display: flex; justify-content: center;" v-if="isLogin" >
+            <div class="marginH3">
+                <h2 style="padding-top:10%; font-family: 'itu';">its</h2>
+            </div>
+            <div class="marginH3">
+                <span class="navTitle">KanTan</span>
+            </div>
+            <div class="marginH3"  >
+                <h2 style="padding-top: 10%;font-family: itu;" @click="logout" >logOut</h2>
+            </div>
+        </div>
+        <!-- END NAVBAR -->
+
+        <!-- Login -->
+        <div class="containerLoginRegister" v-if="!isLogin">
+            <div style=" display: flex; justify-content: space-around; padding-bottom: 30px;">
+                <div class='login-register' >
+                    <!-- LOGIN FORM -->
+                    <form class="frm-login" v-if="loginPage">
+                        <span class="backlog" style="font-size: 33;"> Sign in!</span>
+                        
+                        <div class="email-container">
+                            <label class="backlog" style="font-size: 22px;">Email:</label><br>
+                            <input class="email" type="email" v-model="email">
+                        </div><br>
+                        <div>
+                            <label class="backlog" style="font-size: 22px;">Password:</label><br>
+                            <input class="password" type="password" v-model="password">
+                        </div>
+                        <div>
+                            <p>Dont have account? <a style="font-family: ini;" class="hovr" @click="showRegisterHideLogin">Sign Up!</a></p>
+                        </div>
+                        <div> <a class=button @click="axiosLogin"> Login </a> </div>
+                    </form>
+                    <!-- END LOGIN FORM -->
+
+                    <!-- REGISTER -->
+                    <form class="frm-login"  v-if="!loginPage">
+                        <span class="backlog"> Register</span>
+                        <div class="email-container">
+                            <label class="backlog" style="font-size: 15px;">Name:</label><br>
+                            <input class="email" type="text" placeholder="Your name here">
+                        </div>
+                        <div class="email-container">
+                            <label class="backlog" style="font-size: 15px;">Email:</label><br>
+                            <input class="email" type="email" placeholder="Your email here">
+                        </div>  
+                        
+                        <div class="email-container">
+                            <label class="backlog" style="font-size: 15px;">Password:</label><br>
+                            <input class="password" type="password" placeholder="Your password here">
+                        </div>
+                        <br><br>
+                        <div> <a class=button> Register </a> </div>
+                    </form>
+                    <div class='login-register'>
+                        
+                    </div>
+                </div>
+                <div class=imgcontainer style="text-align: center">
+                    <span style="background-color: white;padding-left: 10px; padding-right: 10px;border-radius: 20px; font-family: itz; font-size: 80px; color:rgb(70, 135, 165);" > Kantan Kanban</span>
+                   
+                    <div>
+                        <img src="/style/Logo.png" style="width: 400px;height: 300px;">
+                    </div>
+                </div>
                 
             </div>
         </div>
+
+
+    
+    
+        <div class="content"  v-if="isLogin">
+            <div class="anakolom">
+                <div class="container-backlog">
+                    <div >
+                        <p class="backlog" >BackLog</p>
+                    </div>
+                    <div class="ini">
+                        <!-- INI BUAT DI LOOP -->
+                        <div class="isi" v-for="i in backlogData">  
+                            <div class="pContent">
+                                <span > {{i.description}}</span>
+                                <div style="display: flex; justify-content: flex-end;">
+                                    <img src="./style/png/garbage-1.png" style="height: 25px; width: 25px;">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END  LOOP  -->
+                    </div>
+                </div>
+            </div>
+            
+    
+            <div class="anakolom">
+                <div class="container-product">
+                    <div >
+                        <p class="backlog" >Product</p>
+                    </div>
+                    <div class="ini">
+                        <!-- INI BUAT DI LOOP -->
+                        <div class="isi" v-for="i in productData">  
+                            <div class="pContent">
+                                <span > {{i.description}}</span>
+                                <div style="display: flex; justify-content: flex-end;">
+                                    <img src="./style/png/garbage-1.png" style="height: 25px; width: 25px;">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END  LOOP  -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="anakolom">
+                <div class="container-development">
+                    <div >
+                        <p class="backlog" >Development</p>
+                    </div>
+                    <div class="ini">
+                        <!-- INI BUAT DI LOOP -->
+                        <div class="isi" v-for="i in developmentData">  
+                            <div class="pContent">
+                                <span > {{i.description}}</span>
+                                <div style="display: flex; justify-content: flex-end;">
+                                    <img src="./style/png/garbage-1.png" style="height: 25px; width: 25px;">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END  LOOP  -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="anakolom">
+                <div class="container-done">
+                    <div >
+                        <p class="backlog" >Done</p>
+                    </div>
+                    <div class="ini">
+                        <!-- INI BUAT DI LOOP -->
+                        <div class="isi" v-for="i in doneData">  
+                            <div class="pContent">
+                                <span > {{i.description}}</span>
+                                <div style="display: flex; justify-content: flex-end;">
+                                    <img src="./style/png/garbage-1.png" style="height: 25px; width: 25px;">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END  LOOP  -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
         
+        <button class="button" @click="toggleModal">
+           Add Data
+           </button>
+           <transition name="fade" appear>
+            <div class="modal-overlay" v-if="showModal" @click="toggleModal"></div>
+           </transition>
+           <transition name="slide" appear>
+            <div class="modal" v-if="showModal">
+             <h1>Lorem Ipsum</h1>
+             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem provident explicabo accusamus laudantium voluptatum nobis sed nesciunt neque possimus molestiae?</p>
+             <button class="button" @click="toggleModal">
+              Close Modal
+             </button>
+            </div>
+           </transition>
+
+
     </div>
-    <div class="container ">
-        <h1 style="text-align: center;margin: 4%;">KanTan! Project</h1>
-    </div>
-
-
-
-    <div class="container bg-info card">
-        <div class="row d-flex justify-content-center" style="padding-bottom: 1%; padding-top: 1%;">
-            <div class="col ">
-                <div class="card abu" style="padding-top: 3%; padding-bottom: 3%; " >
-                    <h4 class="card-subtitle" style="padding-left: 3%;">Backlog </h4>
-                    <div class="card putih marginInside" >
-                        <h5> Rumah ini </h5>
-                        <p> dahulu sederhana<br>
-                            Ruang demi ruang dibangun bersama<br>
-                            Angan-angan yang dulu mimpi belaka
-                            Kita gapai segala yang tak disangka</p>
-                    </div>
-
-                    <div class="card putih marginInside" >
-                        <h5> Tak sadar  </h5>
-                        <p>menimbun lebih berharga<br>
-                            Berdiri di atas yang lebih bermakna
-                            Anak tangga yang berlebihan jumlahnya
-                            Mendaki terus entah mau ke mana?</p>
-                    </div>
-                    
-                    
-                </div>
-                
-            </div>
-    
-            <div class="col ">
-                <div class="card abu" style="padding-top: 3%; padding-bottom: 3%; " >
-                    <h4 class="card-subtitle" style="padding-left: 3%;">Product </h4>
-                    <div class="card putih marginInside" >
-                        <h5> Dan kau selalu </h5>
-                        <p> bertanya, untuk apa?<br>
-                            Mengelak kerap kutemukan jawabnya
-                            Medusa dan semakin keras kepala
-                            Seakan hidup hanya untuk bekerja</p>
-                    </div>
-
-                    <div class="card putih marginInside" >
-                        <h5> Mengejar mimpi sampai</h5>
-                        <p> tak punya rasa<br>
-                            Mengejar mimpi sampai lupa keluarga<br>
-                            Mengejar mimpi lupa dunia nyata
-                            Mengejar mimpi tapi <b>tidak bersama</b></p>
-                    </div>
-
-                    <div class="card putih marginInside" >
-                        <h5> Padahal katanya </h5>
-                        <p>uang takkan kemana<br>
-                            Jika memang rezeki ya 'kan ditransfer juga
-                            Namun dikejar terus seakan satwa langka
-                            Diprosesnya melintah lupa jadi manusia</p>
-                    </div>
-                </div>
-
-            </div>
-    
-            <div class="col ">
-                <div class="card abu" style="padding-top: 3%; padding-bottom: 3%; " >
-                    <h4 class="card-subtitle" style="padding-left: 3%;">Development </h4>
-                    <div class="card putih marginInside" >
-                        <h5> Melihat hawa  </h5>
-                        <p> jadi panas lupa cuaca<br>
-                            Tertiup angin buah jatuh digigit juga<br>
-                            Seakan perlu banyak seperti Dewa <b>Siwa</b><br>
-                            Padahal manusia hanya bertangan dua</p>
-                    </div>
-
-                    <div class="card putih marginInside" >
-                        <h5> Kasur yang luas  </h5>
-                        <p>tapi bangun sendiri<br>
-                            Mobil baru mengkilap tanpa penumpang di kiri<br>
-                            Banyak sepatu minim privasi susah pergi<br>
-                            PS4, nintendo switch tanpa player dua</p>
-                    </div>
-                </div>
-
-            </div>
-    
-            <div class="col ">
-                <div class="card abu" style="padding-top: 3%; padding-bottom: 3%; " >
-                    <h4 class="card-subtitle" style="padding-left: 3%;">Done </h4>
-                    <div class="card putih marginInside" >
-                        <h5> Rumah ini </h5>
-                        <p> dahulu sederhana<br>
-                            Ruang demi ruang dibangun bersama<br>
-                            Angan-angan yang dulu mimpi belaka
-                            Kita gapai segala yang tak disangka</p>
-                    </div>
-
-                    <div class="card putih marginInside" >
-                        <h5> Dan dahulu kau </h5>
-                        <p> bertanya, untuk apa?<br>
-                            Lalu kuperhatikan ini semua
-                            Barang mahal yang tidak ada harganya
-                            Dan sekarang, kubertanya untuk apa?</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>    
+    <script src="script/backup.js"></script>
 </body>
-<script src="./script.js"> </script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 </html>

@@ -1,7 +1,9 @@
-const bcyrpt = require('bcrypt')
+const bcrypt = require('bcrypt')
 
-function comparePW(input,hash){
-    bcyrpt.compare(input,hash)
+
+function compareBcrypt (password , hash){
+    console.log('bekrip')
+    return bcrypt.compare(password, hash)
 }
 
-module.exports=comparePW
+module.exports = compareBcrypt
