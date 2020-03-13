@@ -87,7 +87,29 @@ export default {
                 this.isLogin=true
             })
             .catch(err=>{
-                console.log(err)
+                let errorArray=[]
+                if(data.email==''){
+                    errorArray.push('Email Cannot Be Empty')
+                }
+                if(data.password==''){
+                    errorArray.push('Password Cannot Be Empty')
+                }
+               
+                if(errorArray.length>0){
+                    Swal.fire({
+                        title: 'Error!',
+                        html:`${(errorArray[0]) ? errorArray[0]:''} <br> ${ (errorArray[1]) ? errorArray[1]:''}`,
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                        })
+                }else{
+                     Swal.fire({
+                        title: 'Error!',
+                        html:`Please enter Valid Email / Password`,
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                        })
+                }
             })
         },showLogin(){
             this.loginPage=true
@@ -136,6 +158,23 @@ export default {
             })
             .catch(err=>{
                 console.log(err)
+                let errorArray=[]
+                if(data.category==''){
+                    errorArray.push('Please select category')
+                }
+                if(data.description==''){
+                    errorArray.push('please input description')
+                }
+               
+                if(errorArray.length>0){
+                    Swal.fire({
+                        title: 'Error!',
+                        html:`${(errorArray[0]) ? errorArray[0]:''} <br> ${ (errorArray[1]) ? errorArray[1]:''}`,
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                        })
+                }
+                
             })
 
         },
@@ -170,6 +209,33 @@ export default {
             })
             .catch(err=>{
                 console.log(err)
+                let errorArray=[]
+                if(loginData.email==''){
+                    errorArray.push('Email Cannot Be Empty')
+                }
+                if(loginData.password==''){
+                    errorArray.push('Password Cannot Be Empty')
+                }
+                if(loginData.name==''){
+                    errorArray.push('Name Cannot Be Empty')
+                }
+                console.log('disini')
+                console.log(errorArray)
+                if(errorArray.length>0){
+                    Swal.fire({
+                        title: 'Error!',
+                        html:`${(errorArray[0]) ? errorArray[0]:''} <br> ${ (errorArray[1]) ? errorArray[1]:''} <br>${(errorArray[2]) ? errorArray[2]:''}`,
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                        })
+                }else{
+                     Swal.fire({
+                        title: 'Error!',
+                        html:`Email already Used`,
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                        })
+                }
             })
         }
 

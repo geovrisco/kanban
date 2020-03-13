@@ -18,9 +18,10 @@ class Controller {
             UserId:request.userDecoded.id
         }
         if (!request.body.description||!request.body.category){
-            let err={
+            let obj={
                 status:400,msg:'please fill all required field'
             }
+            next(obj)
         }else{
             console.log(obj)
             Task.create(obj)
@@ -34,6 +35,14 @@ class Controller {
     }
 
     static update (request,response,next){
+
+        if (!request.body.description||!request.body.category){
+            let obj={
+                status:400,msg:'please fill all required field'
+            }
+            next(obj)
+        }
+
         Task.update({
             description:request.body.description,
             category:request.body.category

@@ -8980,6 +8980,12 @@ exports.default = void 0;
 //
 //
 //
+//
+//
+//
+//
+//
+//
 var _default = {
   props: ['isLogin', 'loginPage'],
   methods: {
@@ -9219,147 +9225,157 @@ exports.default = _default;
                           },
                           [_vm._v(" Login ")]
                         )
-                      ])
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm._m(3)
                     ])
                   : _vm._e(),
                 _vm._v(" "),
                 !_vm.loginPage
-                  ? _c("form", { staticClass: "frm-login" }, [
-                      _c("span", { staticClass: "backlog" }, [
-                        _vm._v(" Register")
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "email-container" }, [
-                        _c(
-                          "label",
-                          {
-                            staticClass: "backlog",
-                            staticStyle: { "font-size": "15px" }
-                          },
-                          [_vm._v("Name:")]
-                        ),
+                  ? _c(
+                      "form",
+                      {
+                        staticClass: "frm-login",
+                        on: {
+                          submit: [
+                            function($event) {
+                              $event.preventDefault()
+                            },
+                            _vm.submitRegister
+                          ]
+                        }
+                      },
+                      [
+                        _c("span", { staticClass: "backlog" }, [
+                          _vm._v(" Register")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "email-container" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "backlog",
+                              staticStyle: { "font-size": "15px" }
+                            },
+                            [_vm._v("Name:")]
+                          ),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.registerName,
+                                expression: "registerName"
+                              }
+                            ],
+                            staticClass: "email",
+                            attrs: {
+                              type: "text",
+                              placeholder: "Your name here"
+                            },
+                            domProps: { value: _vm.registerName },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.registerName = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "email-container" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "backlog",
+                              staticStyle: { "font-size": "15px" }
+                            },
+                            [_vm._v("Email:")]
+                          ),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.registerEmail,
+                                expression: "registerEmail"
+                              }
+                            ],
+                            staticClass: "email",
+                            attrs: {
+                              type: "email",
+                              placeholder: "Your email here"
+                            },
+                            domProps: { value: _vm.registerEmail },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.registerEmail = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "email-container" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "backlog",
+                              staticStyle: { "font-size": "15px" }
+                            },
+                            [_vm._v("Password:")]
+                          ),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.registerPassword,
+                                expression: "registerPassword"
+                              }
+                            ],
+                            staticClass: "password",
+                            attrs: {
+                              type: "password",
+                              placeholder: "Your password here"
+                            },
+                            domProps: { value: _vm.registerPassword },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.registerPassword = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("br"),
                         _c("br"),
                         _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.registerName,
-                              expression: "registerName"
-                            }
-                          ],
-                          staticClass: "email",
-                          attrs: {
-                            type: "text",
-                            placeholder: "Your name here"
-                          },
-                          domProps: { value: _vm.registerName },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.registerName = $event.target.value
-                            }
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "email-container" }, [
-                        _c(
-                          "label",
-                          {
-                            staticClass: "backlog",
-                            staticStyle: { "font-size": "15px" }
-                          },
-                          [_vm._v("Email:")]
-                        ),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.registerEmail,
-                              expression: "registerEmail"
-                            }
-                          ],
-                          staticClass: "email",
-                          attrs: {
-                            type: "email",
-                            placeholder: "Your email here"
-                          },
-                          domProps: { value: _vm.registerEmail },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.registerEmail = $event.target.value
-                            }
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "email-container" }, [
-                        _c(
-                          "label",
-                          {
-                            staticClass: "backlog",
-                            staticStyle: { "font-size": "15px" }
-                          },
-                          [_vm._v("Password:")]
-                        ),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.registerPassword,
-                              expression: "registerPassword"
-                            }
-                          ],
-                          staticClass: "password",
-                          attrs: {
-                            type: "password",
-                            placeholder: "Your password here"
-                          },
-                          domProps: { value: _vm.registerPassword },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.registerPassword = $event.target.value
-                            }
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("br"),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("div", [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "button",
-                            on: { click: _vm.submitRegister }
-                          },
-                          [_vm._v(" Register ")]
-                        )
-                      ])
-                    ])
+                        _vm._m(4)
+                      ]
+                    )
                   : _vm._e(),
                 _vm._v(" "),
                 _c("div", { staticClass: "login-register" })
               ]),
               _vm._v(" "),
-              _vm._m(3)
+              _vm._m(5)
             ]
           )
         ])
@@ -9393,6 +9409,47 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "marginH3" }, [
       _c("span", { staticClass: "navTitle" }, [_vm._v("KanTan")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c(
+        "span",
+        {
+          staticStyle: {
+            "font-family": "ini",
+            "background-image":
+              "linear-gradient(to right, rgba(255, 220, 23, 0.75),rgba(44, 220, 40,0.4))",
+            "text-align": "center",
+            padding: "5px",
+            "border-radius": "20px"
+          }
+        },
+        [_vm._v("Or, with Google! ")]
+      ),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("div", {
+        staticClass: "g-signin2",
+        attrs: { "data-onsuccess": "onSignIn" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("input", {
+        staticClass: "button",
+        attrs: { type: "submit", value: "Sign In" }
+      })
     ])
   },
   function() {
@@ -11598,19 +11655,47 @@ var _default = {
     deleteData: function deleteData(id) {
       var _this = this;
 
-      (0, _axios.default)({
-        method: 'DELETE',
-        url: "".concat(localhost, "task/").concat(id),
-        headers: {
-          "token": localStorage.getItem("token")
-        }
-      }).then(function (data) {
-        console.log(id);
+      //  delete this incase shit happen
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then(function (result) {
+        if (result.value) {
+          (0, _axios.default)({
+            method: 'DELETE',
+            url: "".concat(localhost, "task/").concat(id),
+            headers: {
+              "token": localStorage.getItem("token")
+            }
+          }).then(function (data) {
+            console.log(id);
 
-        _this.$emit("axiosGet", id);
-      }).catch(function (err) {
-        console.log(err);
-      });
+            _this.$emit("axiosGet", id);
+          }).catch(function (err) {
+            console.log(err);
+          });
+          Swal.fire('Kanban Deleted!', 'Sweet, now lets do another task.', 'success');
+        } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire('Cancelled', 'Take a rest if you click the button by mistake >.<', 'error');
+        }
+      }); //delete this in case shit happen 
+      // axios({
+      //     method:'DELETE',
+      //     url:`${localhost}task/${id}`,
+      //     headers:{"token":localStorage.getItem("token")}
+      // }).then(data=>{
+      // console.log(id)
+      //     this.$emit(`axiosGet`,id)
+      // }).catch(err=>{
+      //     console.log(err)
+      // })
     },
     updateTrigger: function updateTrigger(id, description, category) {
       // alert(` ini pencetan ${id}`)
@@ -11649,6 +11734,12 @@ var _default = {
         _this2.$emit("axiosGet");
       }).catch(function (err) {
         console.log(err);
+        Swal.fire({
+          title: 'Error!',
+          html: "Please Fill the Description",
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        });
       });
     }
   },
@@ -11826,18 +11917,35 @@ var _default = {
     deleteData: function deleteData(id) {
       var _this = this;
 
-      (0, _axios.default)({
-        method: 'DELETE',
-        url: "".concat(localhost, "task/").concat(id),
-        headers: {
-          "token": localStorage.getItem("token")
-        }
-      }).then(function (data) {
-        console.log(id);
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then(function (result) {
+        if (result.value) {
+          (0, _axios.default)({
+            method: 'DELETE',
+            url: "".concat(localhost, "task/").concat(id),
+            headers: {
+              "token": localStorage.getItem("token")
+            }
+          }).then(function (data) {
+            console.log(id);
 
-        _this.$emit("axiosGet", id);
-      }).catch(function (err) {
-        console.log(err);
+            _this.$emit("axiosGet", id);
+          }).catch(function (err) {
+            console.log(err);
+          });
+          Swal.fire('Kanban Deleted!', 'Sweet, now lets do another task.', 'success');
+        } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire('Cancelled', 'Take a rest if you click the button by mistake >.<', 'error');
+        }
       });
     },
     updateTrigger: function updateTrigger(id, description, category) {
@@ -11877,6 +11985,12 @@ var _default = {
         _this2.$emit("axiosGet");
       }).catch(function (err) {
         console.log(err);
+        Swal.fire({
+          title: 'Error!',
+          html: "Please Fill the Description",
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        });
       });
     }
   },
@@ -12054,18 +12168,35 @@ var _default = {
     deleteData: function deleteData(id) {
       var _this = this;
 
-      (0, _axios.default)({
-        method: 'DELETE',
-        url: "".concat(localhost, "task/").concat(id),
-        headers: {
-          "token": localStorage.getItem("token")
-        }
-      }).then(function (data) {
-        console.log(id);
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then(function (result) {
+        if (result.value) {
+          (0, _axios.default)({
+            method: 'DELETE',
+            url: "".concat(localhost, "task/").concat(id),
+            headers: {
+              "token": localStorage.getItem("token")
+            }
+          }).then(function (data) {
+            console.log(id);
 
-        _this.$emit("axiosGet", id);
-      }).catch(function (err) {
-        console.log(err);
+            _this.$emit("axiosGet", id);
+          }).catch(function (err) {
+            console.log(err);
+          });
+          Swal.fire('Kanban Deleted!', 'Sweet, now lets do another task.', 'success');
+        } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire('Cancelled', 'Take a rest if you click the button by mistake >.<', 'error');
+        }
       });
     },
     updateTrigger: function updateTrigger(id, description, category) {
@@ -12105,6 +12236,12 @@ var _default = {
         _this2.$emit("axiosGet");
       }).catch(function (err) {
         console.log(err);
+        Swal.fire({
+          title: 'Error!',
+          html: "Please Fill the Description",
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        });
       });
     }
   },
@@ -12286,18 +12423,35 @@ var _default = {
     deleteData: function deleteData(id) {
       var _this = this;
 
-      (0, _axios.default)({
-        method: 'DELETE',
-        url: "".concat(localhost, "task/").concat(id),
-        headers: {
-          "token": localStorage.getItem("token")
-        }
-      }).then(function (data) {
-        console.log(id);
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then(function (result) {
+        if (result.value) {
+          (0, _axios.default)({
+            method: 'DELETE',
+            url: "".concat(localhost, "task/").concat(id),
+            headers: {
+              "token": localStorage.getItem("token")
+            }
+          }).then(function (data) {
+            console.log(id);
 
-        _this.$emit("axiosGet", id);
-      }).catch(function (err) {
-        console.log(err);
+            _this.$emit("axiosGet", id);
+          }).catch(function (err) {
+            console.log(err);
+          });
+          Swal.fire('Kanban Deleted!', 'Sweet, now lets do another task.', 'success');
+        } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire('Cancelled', 'Take a rest if you click the button by mistake >.<', 'error');
+        }
       });
     },
     updateTrigger: function updateTrigger(id, description, category) {
@@ -12336,6 +12490,12 @@ var _default = {
 
         _this2.$emit("axiosGet");
       }).catch(function (err) {
+        Swal.fire({
+          title: 'Error!',
+          html: "Please Fill the Description",
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        });
         console.log(err);
       });
     }
@@ -12846,7 +13006,31 @@ var _default = {
         console.log(_this.token);
         _this.isLogin = true;
       }).catch(function (err) {
-        console.log(err);
+        var errorArray = [];
+
+        if (data.email == '') {
+          errorArray.push('Email Cannot Be Empty');
+        }
+
+        if (data.password == '') {
+          errorArray.push('Password Cannot Be Empty');
+        }
+
+        if (errorArray.length > 0) {
+          Swal.fire({
+            title: 'Error!',
+            html: "".concat(errorArray[0] ? errorArray[0] : '', " <br> ").concat(errorArray[1] ? errorArray[1] : ''),
+            icon: 'error',
+            confirmButtonText: 'Ok'
+          });
+        } else {
+          Swal.fire({
+            title: 'Error!',
+            html: "Please enter Valid Email / Password",
+            icon: 'error',
+            confirmButtonText: 'Ok'
+          });
+        }
       });
     },
     showLogin: function showLogin() {
@@ -12904,6 +13088,24 @@ var _default = {
         _this3.axiosGet();
       }).catch(function (err) {
         console.log(err);
+        var errorArray = [];
+
+        if (data.category == '') {
+          errorArray.push('Please select category');
+        }
+
+        if (data.description == '') {
+          errorArray.push('please input description');
+        }
+
+        if (errorArray.length > 0) {
+          Swal.fire({
+            title: 'Error!',
+            html: "".concat(errorArray[0] ? errorArray[0] : '', " <br> ").concat(errorArray[1] ? errorArray[1] : ''),
+            icon: 'error',
+            confirmButtonText: 'Ok'
+          });
+        }
       });
     },
     toggleModal: function toggleModal() {
@@ -12936,6 +13138,38 @@ var _default = {
         return _this4.axiosLogin(loginCredential);
       }).catch(function (err) {
         console.log(err);
+        var errorArray = [];
+
+        if (loginData.email == '') {
+          errorArray.push('Email Cannot Be Empty');
+        }
+
+        if (loginData.password == '') {
+          errorArray.push('Password Cannot Be Empty');
+        }
+
+        if (loginData.name == '') {
+          errorArray.push('Name Cannot Be Empty');
+        }
+
+        console.log('disini');
+        console.log(errorArray);
+
+        if (errorArray.length > 0) {
+          Swal.fire({
+            title: 'Error!',
+            html: "".concat(errorArray[0] ? errorArray[0] : '', " <br> ").concat(errorArray[1] ? errorArray[1] : '', " <br>").concat(errorArray[2] ? errorArray[2] : ''),
+            icon: 'error',
+            confirmButtonText: 'Ok'
+          });
+        } else {
+          Swal.fire({
+            title: 'Error!',
+            html: "Email already Used",
+            icon: 'error',
+            confirmButtonText: 'Ok'
+          });
+        }
       });
     }
   },
@@ -13093,7 +13327,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "36067" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34425" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

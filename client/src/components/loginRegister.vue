@@ -47,11 +47,17 @@
                             <p>Dont have account? <a style="font-family: ini;" class="hovr" @click=" $emit('showRegister') ">Sign Up!</a></p>
                         </div>
                         <div> <a class=button @click="submitlogin"> Login </a> </div>
+                        <br><br>
+                        <div>
+                              <span style="font-family: ini; background-image: linear-gradient(to right, rgba(255, 220, 23, 0.75),rgba(44, 220, 40,0.4));; text-align:center; padding:5px;border-radius:20px" >Or, with Google! </span>
+                            <br> <br>
+                            <div class="g-signin2" data-onsuccess="onSignIn"></div>  
+                            </div>
                     </form>
                     <!-- END LOGIN FORM -->
 
                     <!-- REGISTER -->
-                    <form class="frm-login"  v-if="!loginPage">
+                    <form class="frm-login"  v-if="!loginPage" v-on:submit.prevent v-on:submit="submitRegister">
                         <span class="backlog"> Register</span>
                         <div class="email-container">
                             <label class="backlog" style="font-size: 15px;">Name:</label><br>
@@ -67,7 +73,7 @@
                             <input class="password" type="password" placeholder="Your password here" v-model="registerPassword">
                         </div>
                         <br><br>
-                        <div> <a class=button @click="submitRegister"> Register </a> </div>
+                        <div> <input type="submit" class=button  value="Sign In">  </div>
                     </form>
                     <div class='login-register'>
                         

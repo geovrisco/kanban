@@ -37,7 +37,18 @@ export default {
     },
     methods:{
         deleteData(id){
-            axios({
+           Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+
+                                axios({
                 method:'DELETE',
                 url:`${localhost}task/${id}`,
                 headers:{"token":localStorage.getItem("token")}
@@ -47,6 +58,23 @@ export default {
             }).catch(err=>{
                 console.log(err)
             })
+
+                            Swal.fire(
+                            'Kanban Deleted!',
+                            'Sweet, now lets do another task.',
+                            'success'
+                            )
+                            } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+    ) {
+        Swal.fire(
+        'Cancelled',
+        'Take a rest if you click the button by mistake >.<',
+        'error'
+        )
+    }
+    })
         },
         updateTrigger(id,description,category){
             // alert(` ini pencetan ${id}`)
@@ -80,6 +108,12 @@ export default {
                 this.$emit("axiosGet")
             }).catch(err=>{
                 console.log(err)
+                Swal.fire({
+                        title: 'Error!',
+                        html:`Please Fill the Description`,
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                        })
             })
         }
         
