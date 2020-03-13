@@ -440,4 +440,39 @@ body{
     color:white
 }
 
+.kanbanDesc{
+    font-family: 'itu';
+    font-size: 20px;
+    width: 400px;
+    height: 120px;
+    padding-left: 7px;
+    box-sizing: border-box;
+    border: 2px solid rgb(70, 135, 165);
+    border-radius: 10px;
+    background-color: #f8f8f8;  
+    
+}
+
+.gradButton{
+    margin-top: 2%;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 18px;
+    padding-right: 18px;
+    border-radius: 15px;
+    font-size: 20px;
+    border: 2px solid rgb(255, 255, 255);
+    background-image: linear-gradient(to right, rgb(248, 225, 176),rgb(120, 255, 102));
+}
+
+.toggleImg{
+    position: inherit;
+    height: 25px; 
+    width: 25px;
+}
+.toggleImg:hover{
+    height: 35px; 
+    width: 35px;
+}
+
 /*# sourceMappingURL=/style.493e6e98.css.map */

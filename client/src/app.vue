@@ -6,21 +6,21 @@
         @showLogin="showLogin" 
         @axiosLogin="axiosLogin" 
         @showRegister="showRegister"
+        @logout="logout"
         >
         </loginRegister>
         <div class="content"  v-if="isLogin">
-            <backlog :maindata="maindata"  @deleteThisArray="deleteThisArray($event)" ></backlog>
+            <backlog :maindata="maindata"  @axiosGet="axiosGet" ></backlog>
             <product :maindata="maindata" @axiosGet="axiosGet"> </product>
             <development :maindata="maindata" @axiosGet="axiosGet" > </development>
             <done :maindata="maindata" @axiosGet="axiosGet" > </done>
-        </div>
+        <modal :showModal="showModal" @toggleModal="toggleModal" @axiosCreate="axiosCreate" ></modal >
 
-        <modal :showModal="showModal" @toggleModal="toggleModal" ></modal >
-
-        <div>
+        <div style="display:flex; justify-content:center">
             <button class="button" @click="toggleModal" >
            Add Data
            </button>
+        </div>
         </div>
 
     </div>
@@ -120,14 +120,38 @@ export default {
             })
             console.log(array)
             this.maindata=array
-        }, axiosRegister(data){
+        }, axiosCreate(data){
+            axios({
+                method:"POST",
+                url:`${localhost}task`,
+                headers:{"token":localStorage.getItem("token")},
+                data:{
+                    category:data.category,
+                    description:data.description
+                }
+            })
+            .then(data=>{
+                this.axiosGet()
+            })
+            .catch(err=>{
+                console.log(err)
+            })
 
-        }, toggleModal(){
+        },
+         toggleModal(){
             this.showModal=!this.showModal
+        },
+        logout(){
+            console.log("trigger dong")
+            localStorage.removeItem("token")
+            this.isLogin=false
+            this.loginPage=true
         }
 
 
 
+    },watch:{
+        
     }
     
 }

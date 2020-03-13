@@ -8983,10 +8983,6 @@ exports.default = void 0;
 var _default = {
   props: ['isLogin', 'loginPage'],
   methods: {
-    logout: function logout() {
-      localStorage.removeItem("token");
-      this.isLogin = false;
-    },
     submitlogin: function submitlogin() {
       var data = {
         email: this.email,
@@ -8994,12 +8990,23 @@ var _default = {
       };
       console.log(data);
       this.$emit("axiosLogin", data);
+    },
+    submitRegister: function submitRegister() {
+      var data = {
+        email: this.registerEmail,
+        password: this.registerPassword,
+        name: this.registerName
+      };
+      console.log(data);
     }
   },
   data: function data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      registerEmail: '',
+      registerPassword: '',
+      registerName: ''
     };
   }
 };
@@ -9077,7 +9084,11 @@ exports.default = _default;
                 "h2",
                 {
                   staticStyle: { "padding-top": "10%", "font-family": "itu" },
-                  on: { click: _vm.logout }
+                  on: {
+                    click: function($event) {
+                      return _vm.$emit("logout")
+                    }
+                  }
                 },
                 [_vm._v("logOut")]
               )
@@ -9217,23 +9228,137 @@ exports.default = _default;
                         _vm._v(" Register")
                       ]),
                       _vm._v(" "),
-                      _vm._m(3),
+                      _c("div", { staticClass: "email-container" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "backlog",
+                            staticStyle: { "font-size": "15px" }
+                          },
+                          [_vm._v("Name:")]
+                        ),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.registerName,
+                              expression: "registerName"
+                            }
+                          ],
+                          staticClass: "email",
+                          attrs: {
+                            type: "text",
+                            placeholder: "Your name here"
+                          },
+                          domProps: { value: _vm.registerName },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.registerName = $event.target.value
+                            }
+                          }
+                        })
+                      ]),
                       _vm._v(" "),
-                      _vm._m(4),
+                      _c("div", { staticClass: "email-container" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "backlog",
+                            staticStyle: { "font-size": "15px" }
+                          },
+                          [_vm._v("Email:")]
+                        ),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.registerEmail,
+                              expression: "registerEmail"
+                            }
+                          ],
+                          staticClass: "email",
+                          attrs: {
+                            type: "email",
+                            placeholder: "Your email here"
+                          },
+                          domProps: { value: _vm.registerEmail },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.registerEmail = $event.target.value
+                            }
+                          }
+                        })
+                      ]),
                       _vm._v(" "),
-                      _vm._m(5),
+                      _c("div", { staticClass: "email-container" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "backlog",
+                            staticStyle: { "font-size": "15px" }
+                          },
+                          [_vm._v("Password:")]
+                        ),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.registerPassword,
+                              expression: "registerPassword"
+                            }
+                          ],
+                          staticClass: "password",
+                          attrs: {
+                            type: "password",
+                            placeholder: "Your password here"
+                          },
+                          domProps: { value: _vm.registerPassword },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.registerPassword = $event.target.value
+                            }
+                          }
+                        })
+                      ]),
                       _vm._v(" "),
                       _c("br"),
                       _c("br"),
                       _vm._v(" "),
-                      _vm._m(6)
+                      _c("div", [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "button",
+                            on: { click: _vm.submitRegister }
+                          },
+                          [_vm._v(" Register ")]
+                        )
+                      ])
                     ])
                   : _vm._e(),
                 _vm._v(" "),
                 _c("div", { staticClass: "login-register" })
               ]),
               _vm._v(" "),
-              _vm._m(7)
+              _vm._m(3)
             ]
           )
         ])
@@ -9267,68 +9392,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "marginH3" }, [
       _c("span", { staticClass: "navTitle" }, [_vm._v("KanTan")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "email-container" }, [
-      _c(
-        "label",
-        { staticClass: "backlog", staticStyle: { "font-size": "15px" } },
-        [_vm._v("Name:")]
-      ),
-      _c("br"),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "email",
-        attrs: { type: "text", placeholder: "Your name here" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "email-container" }, [
-      _c(
-        "label",
-        { staticClass: "backlog", staticStyle: { "font-size": "15px" } },
-        [_vm._v("Email:")]
-      ),
-      _c("br"),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "email",
-        attrs: { type: "email", placeholder: "Your email here" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "email-container" }, [
-      _c(
-        "label",
-        { staticClass: "backlog", staticStyle: { "font-size": "15px" } },
-        [_vm._v("Password:")]
-      ),
-      _c("br"),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "password",
-        attrs: { type: "password", placeholder: "Your password here" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("a", { staticClass: "button" }, [_vm._v(" Register ")])
     ])
   },
   function() {
@@ -11156,7 +11219,331 @@ module.exports.default = axios;
 
 },{"./utils":"../node_modules/axios/lib/utils.js","./helpers/bind":"../node_modules/axios/lib/helpers/bind.js","./core/Axios":"../node_modules/axios/lib/core/Axios.js","./core/mergeConfig":"../node_modules/axios/lib/core/mergeConfig.js","./defaults":"../node_modules/axios/lib/defaults.js","./cancel/Cancel":"../node_modules/axios/lib/cancel/Cancel.js","./cancel/CancelToken":"../node_modules/axios/lib/cancel/CancelToken.js","./cancel/isCancel":"../node_modules/axios/lib/cancel/isCancel.js","./helpers/spread":"../node_modules/axios/lib/helpers/spread.js"}],"../node_modules/axios/index.js":[function(require,module,exports) {
 module.exports = require('./lib/axios');
-},{"./lib/axios":"../node_modules/axios/lib/axios.js"}],"components/backlog.vue":[function(require,module,exports) {
+},{"./lib/axios":"../node_modules/axios/lib/axios.js"}],"components/edit_modal.vue":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var _default = _defineProperty({
+  props: ['showModal', 'dataEdit'],
+  data: function data() {
+    return {
+      description: '',
+      category: '',
+      id: ''
+    };
+  },
+  methods: {},
+  watch: {
+    dataEdit: function dataEdit() {
+      this.description = this.dataEdit.description;
+      this.category = this.dataEdit.category;
+      this.id = this.dataEdit.id;
+      console.log("watch");
+    }
+  },
+  computed: {
+    selectBL: function selectBL() {
+      if (this.data.category === "backlog") {
+        var a = "selected";
+        return a;
+      }
+    },
+    selectPr: function selectPr() {
+      if (this.data.category === "product") {
+        var a = "selected";
+        return a;
+      }
+    },
+    selectDe: function selectDe() {
+      if (this.data.category === "development") {
+        var a = "selected";
+        return a;
+      }
+    },
+    selectDn: function selectDn() {
+      if (this.data.category === "done") {
+        var a = "selected";
+        return a;
+      }
+    }
+  }
+}, "methods", {
+  axiosGetTrigger: function axiosGetTrigger(id, description, category) {
+    console.log("".concat(id, " ").concat(description, "  ").concat(category));
+    var updateData = {
+      id: Number(id),
+      description: description,
+      category: category
+    };
+    this.$emit("axiosPut", updateData);
+  }
+});
+
+exports.default = _default;
+        var $f706f4 = exports.default || module.exports;
+      
+      if (typeof $f706f4 === 'function') {
+        $f706f4 = $f706f4.options;
+      }
+    
+        /* template */
+        Object.assign($f706f4, (function () {
+          var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("transition", { attrs: { name: "fade", appear: "" } }, [
+        _vm.showModal
+          ? _c("div", {
+              staticClass: "modal-overlay",
+              on: {
+                click: function($event) {
+                  return _vm.$emit("toggleModal")
+                }
+              }
+            })
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("transition", { attrs: { name: "slide", appear: "" } }, [
+        _vm.showModal
+          ? _c("div", { staticClass: "modal" }, [
+              _c("span", { staticClass: "backlog" }, [
+                _vm._v("edit this task")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-modal" }, [
+                _c("form", [
+                  _c("div", { staticClass: "email-container" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "backlog",
+                        staticStyle: { "font-size": "15px" }
+                      },
+                      [_vm._v("Description:")]
+                    ),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.description,
+                          expression: "description"
+                        }
+                      ],
+                      staticClass: "kanbanDesc",
+                      attrs: { type: "text" },
+                      domProps: { value: _vm.description },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.description = $event.target.value
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticStyle: {
+                        display: "flex",
+                        "justify-content": "center",
+                        "margin-bottom": "3%"
+                      }
+                    },
+                    [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.category,
+                              expression: "category"
+                            }
+                          ],
+                          staticClass: "select-opt",
+                          attrs: { id: "Category" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.category = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { disabled: "", value: "" } }, [
+                            _vm._v(" Select Category ")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "backlog" } }, [
+                            _vm._v("backlog")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "product" } }, [
+                            _vm._v("product")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "development" } }, [
+                            _vm._v("development")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "done" } }, [
+                            _vm._v("done")
+                          ])
+                        ]
+                      )
+                    ]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-modal" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "buttonModalBlue",
+                    on: {
+                      click: function($event) {
+                        return _vm.axiosGetTrigger(
+                          "" + _vm.id,
+                          "" + _vm.description,
+                          "" + _vm.category
+                        )
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    Edit Kanban!\n                "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "buttonModalRed",
+                    on: {
+                      click: function($event) {
+                        return _vm.$emit("toggleModal")
+                      }
+                    }
+                  },
+                  [_vm._v("\n                    Cancel\n                ")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("br"),
+              _c("br")
+            ])
+          : _vm._e()
+      ])
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+          return {
+            render: render,
+            staticRenderFns: staticRenderFns,
+            _compiled: true,
+            _scopeId: null,
+            functional: undefined
+          };
+        })());
+      
+    /* hot reload */
+    (function () {
+      if (module.hot) {
+        var api = require('vue-hot-reload-api');
+        api.install(require('vue'));
+        if (api.compatible) {
+          module.hot.accept();
+          if (!module.hot.data) {
+            api.createRecord('$f706f4', $f706f4);
+          } else {
+            api.reload('$f706f4', $f706f4);
+          }
+        }
+
+        
+      }
+    })();
+},{"_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"components/backlog.vue":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11165,6 +11552,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
+
+var _edit_modal = _interopRequireDefault(require("./edit_modal"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11190,9 +11579,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
 var localhost = 'http://localhost:3000/';
 var _default = {
   props: ['maindata'],
+  components: {
+    editmodal: _edit_modal.default
+  },
   computed: {
     backlogData: function backlogData() {
       return this.maindata.filter(function (filter) {
@@ -11213,14 +11606,56 @@ var _default = {
       }).then(function (data) {
         console.log(id);
 
-        _this.$emit("deleteThisArray", id);
+        _this.$emit("axiosGet", id);
+      }).catch(function (err) {
+        console.log(err);
+      });
+    },
+    updateTrigger: function updateTrigger(id, description, category) {
+      // alert(` ini pencetan ${id}`)
+      this.dataEdit = {
+        id: id,
+        description: description,
+        category: category
+      };
+      this.showModal = true;
+      console.log(this.dataEdit, 'siap oper bouusss');
+    },
+    toggleModal: function toggleModal() {
+      this.showModal = !this.showModal;
+    },
+    axiosPut: function axiosPut(updateData) {
+      var _this2 = this;
+
+      console.log(updateData, "ini update data");
+      console.log('masuk update data');
+      (0, _axios.default)({
+        url: "".concat(localhost, "task/").concat(updateData.id),
+        method: 'PUT',
+        headers: {
+          "token": localStorage.getItem("token")
+        },
+        data: {
+          description: updateData.description,
+          category: updateData.category
+        }
+      }).then(function (res) {
+        // console.log(res)
+        console.log("sukses update data");
+
+        _this2.toggleModal();
+
+        _this2.$emit("axiosGet");
       }).catch(function (err) {
         console.log(err);
       });
     }
   },
   data: function data() {
-    return {};
+    return {
+      showModal: false,
+      dataEdit: null
+    };
   }
 };
 exports.default = _default;
@@ -11236,45 +11671,69 @@ exports.default = _default;
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "anakolom" }, [
-    _c("div", { staticClass: "container-backlog" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "ini" },
-        _vm._l(_vm.backlogData, function(i) {
-          return _c("div", { key: i.id, staticClass: "isi" }, [
-            _c("div", { staticClass: "pContent" }, [
-              _c("span", [_vm._v(" " + _vm._s(i.description))]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticStyle: {
-                    display: "flex",
-                    "justify-content": "flex-end"
-                  }
-                },
-                [
-                  _c("img", {
-                    staticStyle: { height: "25px", width: "25px" },
-                    attrs: { src: "/garbage-1.a0cb94e2.png" },
-                    on: {
-                      click: function($event) {
-                        return _vm.deleteData("" + i.id)
-                      }
+  return _c(
+    "div",
+    { staticClass: "anakolom" },
+    [
+      _c("div", { staticClass: "container-backlog" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "ini" },
+          _vm._l(_vm.backlogData, function(i) {
+            return _c("div", { key: i.id, staticClass: "isi" }, [
+              _c("div", { staticClass: "pContent" }, [
+                _c("span", [_vm._v(" " + _vm._s(i.description))]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticStyle: {
+                      display: "flex",
+                      "justify-content": "flex-end"
                     }
-                  })
-                ]
-              )
+                  },
+                  [
+                    _c("img", {
+                      staticClass: "toggleImg",
+                      attrs: { src: "/zoom-in.0c4eb103.png" },
+                      on: {
+                        click: function($event) {
+                          return _vm.updateTrigger(
+                            i.id,
+                            "" + i.description,
+                            "" + i.category
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("img", {
+                      staticClass: "toggleImg",
+                      attrs: { src: "/garbage-1.a0cb94e2.png" },
+                      on: {
+                        click: function($event) {
+                          return _vm.deleteData("" + i.id)
+                        }
+                      }
+                    })
+                  ]
+                )
+              ])
             ])
-          ])
-        }),
-        0
-      )
-    ])
-  ])
+          }),
+          0
+        )
+      ]),
+      _vm._v(" "),
+      _c("editmodal", {
+        attrs: { showModal: _vm.showModal, dataEdit: _vm.dataEdit },
+        on: { toggleModal: _vm.toggleModal, axiosPut: _vm.axiosPut }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -11312,7 +11771,7 @@ render._withStripped = true
         
       }
     })();
-},{"axios":"../node_modules/axios/index.js","./../style/png/garbage-1.png":[["garbage-1.a0cb94e2.png","style/png/garbage-1.png"],"style/png/garbage-1.png"],"_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"components/product.vue":[function(require,module,exports) {
+},{"axios":"../node_modules/axios/index.js","./edit_modal":"components/edit_modal.vue","./../style/png/zoom-in.png":[["zoom-in.0c4eb103.png","style/png/zoom-in.png"],"style/png/zoom-in.png"],"./../style/png/garbage-1.png":[["garbage-1.a0cb94e2.png","style/png/garbage-1.png"],"style/png/garbage-1.png"],"_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"components/product.vue":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11321,6 +11780,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
+
+var _edit_modal = _interopRequireDefault(require("./edit_modal"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11345,9 +11806,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
 var localhost = 'http://localhost:3000/';
 var _default = {
   props: ['maindata'],
+  components: {
+    editmodal: _edit_modal.default
+  },
   computed: {
     productData: function productData() {
       return this.maindata.filter(function (filter) {
@@ -11359,7 +11825,6 @@ var _default = {
     deleteData: function deleteData(id) {
       var _this = this;
 
-      console.log(id);
       (0, _axios.default)({
         method: 'DELETE',
         url: "".concat(localhost, "task/").concat(id),
@@ -11367,11 +11832,58 @@ var _default = {
           "token": localStorage.getItem("token")
         }
       }).then(function (data) {
-        _this.$emit("axiosGet");
+        console.log(id);
+
+        _this.$emit("axiosGet", id);
+      }).catch(function (err) {
+        console.log(err);
+      });
+    },
+    updateTrigger: function updateTrigger(id, description, category) {
+      // alert(` ini pencetan ${id}`)
+      this.dataEdit = {
+        id: id,
+        description: description,
+        category: category
+      };
+      this.showModal = true;
+      console.log(this.dataEdit, 'siap oper bouusss');
+    },
+    toggleModal: function toggleModal() {
+      this.showModal = !this.showModal;
+    },
+    axiosPut: function axiosPut(updateData) {
+      var _this2 = this;
+
+      console.log(updateData, "ini update data");
+      console.log('masuk update data');
+      (0, _axios.default)({
+        url: "".concat(localhost, "task/").concat(updateData.id),
+        method: 'PUT',
+        headers: {
+          "token": localStorage.getItem("token")
+        },
+        data: {
+          description: updateData.description,
+          category: updateData.category
+        }
+      }).then(function (res) {
+        // console.log(res)
+        console.log("sukses update data");
+
+        _this2.toggleModal();
+
+        _this2.$emit("axiosGet");
       }).catch(function (err) {
         console.log(err);
       });
     }
+  },
+  data: function data() {
+    return {
+      showModal: false,
+      dataEdit: null
+    };
   }
 };
 exports.default = _default;
@@ -11387,45 +11899,69 @@ exports.default = _default;
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "anakolom" }, [
-    _c("div", { staticClass: "container-product" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "ini" },
-        _vm._l(_vm.productData, function(i) {
-          return _c("div", { key: i.id, staticClass: "isi" }, [
-            _c("div", { staticClass: "pContent" }, [
-              _c("span", [_vm._v(" " + _vm._s(i.description))]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticStyle: {
-                    display: "flex",
-                    "justify-content": "flex-end"
-                  }
-                },
-                [
-                  _c("img", {
-                    staticStyle: { height: "25px", width: "25px" },
-                    attrs: { src: "/garbage-1.a0cb94e2.png" },
-                    on: {
-                      click: function($event) {
-                        return _vm.deleteData("" + i.id)
-                      }
+  return _c(
+    "div",
+    { staticClass: "anakolom" },
+    [
+      _c("div", { staticClass: "container-product" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "ini" },
+          _vm._l(_vm.productData, function(i) {
+            return _c("div", { key: i.id, staticClass: "isi" }, [
+              _c("div", { staticClass: "pContent" }, [
+                _c("span", [_vm._v(" " + _vm._s(i.description))]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticStyle: {
+                      display: "flex",
+                      "justify-content": "flex-end"
                     }
-                  })
-                ]
-              )
+                  },
+                  [
+                    _c("img", {
+                      staticClass: "toggleImg",
+                      attrs: { src: "/zoom-in.0c4eb103.png" },
+                      on: {
+                        click: function($event) {
+                          return _vm.updateTrigger(
+                            i.id,
+                            "" + i.description,
+                            "" + i.category
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("img", {
+                      staticClass: "toggleImg",
+                      attrs: { src: "/garbage-1.a0cb94e2.png" },
+                      on: {
+                        click: function($event) {
+                          return _vm.deleteData("" + i.id)
+                        }
+                      }
+                    })
+                  ]
+                )
+              ])
             ])
-          ])
-        }),
-        0
-      )
-    ])
-  ])
+          }),
+          0
+        )
+      ]),
+      _vm._v(" "),
+      _c("editmodal", {
+        attrs: { showModal: _vm.showModal, dataEdit: _vm.dataEdit },
+        on: { toggleModal: _vm.toggleModal, axiosPut: _vm.axiosPut }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -11463,7 +11999,7 @@ render._withStripped = true
         
       }
     })();
-},{"axios":"../node_modules/axios/index.js","./../style/png/garbage-1.png":[["garbage-1.a0cb94e2.png","style/png/garbage-1.png"],"style/png/garbage-1.png"],"_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"components/development.vue":[function(require,module,exports) {
+},{"axios":"../node_modules/axios/index.js","./edit_modal":"components/edit_modal.vue","./../style/png/zoom-in.png":[["zoom-in.0c4eb103.png","style/png/zoom-in.png"],"style/png/zoom-in.png"],"./../style/png/garbage-1.png":[["garbage-1.a0cb94e2.png","style/png/garbage-1.png"],"style/png/garbage-1.png"],"_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"components/development.vue":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11472,6 +12008,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
+
+var _edit_modal = _interopRequireDefault(require("./edit_modal"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11496,13 +12034,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
 var localhost = 'http://localhost:3000/';
 var _default = {
   props: ['maindata'],
+  components: {
+    editmodal: _edit_modal.default
+  },
   computed: {
     developmentData: function developmentData() {
       return this.maindata.filter(function (filter) {
-        return filter.category === "development";
+        return filter.category == "development";
       });
     }
   },
@@ -11510,7 +12053,6 @@ var _default = {
     deleteData: function deleteData(id) {
       var _this = this;
 
-      console.log(id);
       (0, _axios.default)({
         method: 'DELETE',
         url: "".concat(localhost, "task/").concat(id),
@@ -11518,11 +12060,58 @@ var _default = {
           "token": localStorage.getItem("token")
         }
       }).then(function (data) {
-        _this.$emit("axiosGet");
+        console.log(id);
+
+        _this.$emit("axiosGet", id);
+      }).catch(function (err) {
+        console.log(err);
+      });
+    },
+    updateTrigger: function updateTrigger(id, description, category) {
+      // alert(` ini pencetan ${id}`)
+      this.dataEdit = {
+        id: id,
+        description: description,
+        category: category
+      };
+      this.showModal = true;
+      console.log(this.dataEdit, 'siap oper bouusss');
+    },
+    toggleModal: function toggleModal() {
+      this.showModal = !this.showModal;
+    },
+    axiosPut: function axiosPut(updateData) {
+      var _this2 = this;
+
+      console.log(updateData, "ini update data");
+      console.log('masuk update data');
+      (0, _axios.default)({
+        url: "".concat(localhost, "task/").concat(updateData.id),
+        method: 'PUT',
+        headers: {
+          "token": localStorage.getItem("token")
+        },
+        data: {
+          description: updateData.description,
+          category: updateData.category
+        }
+      }).then(function (res) {
+        // console.log(res)
+        console.log("sukses update data");
+
+        _this2.toggleModal();
+
+        _this2.$emit("axiosGet");
       }).catch(function (err) {
         console.log(err);
       });
     }
+  },
+  data: function data() {
+    return {
+      showModal: false,
+      dataEdit: null
+    };
   }
 };
 exports.default = _default;
@@ -11538,45 +12127,69 @@ exports.default = _default;
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "anakolom" }, [
-    _c("div", { staticClass: "container-development" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "ini" },
-        _vm._l(_vm.developmentData, function(i) {
-          return _c("div", { key: i.id, staticClass: "isi" }, [
-            _c("div", { staticClass: "pContent" }, [
-              _c("span", [_vm._v(" " + _vm._s(i.description))]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticStyle: {
-                    display: "flex",
-                    "justify-content": "flex-end"
-                  }
-                },
-                [
-                  _c("img", {
-                    staticStyle: { height: "25px", width: "25px" },
-                    attrs: { src: "/garbage-1.a0cb94e2.png" },
-                    on: {
-                      click: function($event) {
-                        return _vm.deleteData("" + i.id)
-                      }
+  return _c(
+    "div",
+    { staticClass: "anakolom" },
+    [
+      _c("div", { staticClass: "container-development" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "ini" },
+          _vm._l(_vm.developmentData, function(i) {
+            return _c("div", { key: i.id, staticClass: "isi" }, [
+              _c("div", { staticClass: "pContent" }, [
+                _c("span", [_vm._v(" " + _vm._s(i.description))]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticStyle: {
+                      display: "flex",
+                      "justify-content": "flex-end"
                     }
-                  })
-                ]
-              )
+                  },
+                  [
+                    _c("img", {
+                      staticClass: "toggleImg",
+                      attrs: { src: "/zoom-in.0c4eb103.png" },
+                      on: {
+                        click: function($event) {
+                          return _vm.updateTrigger(
+                            i.id,
+                            "" + i.description,
+                            "" + i.category
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("img", {
+                      staticClass: "toggleImg",
+                      attrs: { src: "/garbage-1.a0cb94e2.png" },
+                      on: {
+                        click: function($event) {
+                          return _vm.deleteData("" + i.id)
+                        }
+                      }
+                    })
+                  ]
+                )
+              ])
             ])
-          ])
-        }),
-        0
-      )
-    ])
-  ])
+          }),
+          0
+        )
+      ]),
+      _vm._v(" "),
+      _c("editmodal", {
+        attrs: { showModal: _vm.showModal, dataEdit: _vm.dataEdit },
+        on: { toggleModal: _vm.toggleModal, axiosPut: _vm.axiosPut }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -11616,7 +12229,7 @@ render._withStripped = true
         
       }
     })();
-},{"axios":"../node_modules/axios/index.js","./../style/png/garbage-1.png":[["garbage-1.a0cb94e2.png","style/png/garbage-1.png"],"style/png/garbage-1.png"],"_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"components/done.vue":[function(require,module,exports) {
+},{"axios":"../node_modules/axios/index.js","./edit_modal":"components/edit_modal.vue","./../style/png/zoom-in.png":[["zoom-in.0c4eb103.png","style/png/zoom-in.png"],"style/png/zoom-in.png"],"./../style/png/garbage-1.png":[["garbage-1.a0cb94e2.png","style/png/garbage-1.png"],"style/png/garbage-1.png"],"_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"components/done.vue":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11625,6 +12238,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
+
+var _edit_modal = _interopRequireDefault(require("./edit_modal"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11651,13 +12266,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
 var localhost = 'http://localhost:3000/';
 var _default = {
   props: ['maindata'],
+  components: {
+    editmodal: _edit_modal.default
+  },
   computed: {
     doneData: function doneData() {
       return this.maindata.filter(function (filter) {
-        return filter.category === "done";
+        return filter.category == "done";
       });
     }
   },
@@ -11665,7 +12285,6 @@ var _default = {
     deleteData: function deleteData(id) {
       var _this = this;
 
-      console.log(id);
       (0, _axios.default)({
         method: 'DELETE',
         url: "".concat(localhost, "task/").concat(id),
@@ -11673,11 +12292,58 @@ var _default = {
           "token": localStorage.getItem("token")
         }
       }).then(function (data) {
-        _this.$emit("axiosGet");
+        console.log(id);
+
+        _this.$emit("axiosGet", id);
+      }).catch(function (err) {
+        console.log(err);
+      });
+    },
+    updateTrigger: function updateTrigger(id, description, category) {
+      // alert(` ini pencetan ${id}`)
+      this.dataEdit = {
+        id: id,
+        description: description,
+        category: category
+      };
+      this.showModal = true;
+      console.log(this.dataEdit, 'siap oper bouusss');
+    },
+    toggleModal: function toggleModal() {
+      this.showModal = !this.showModal;
+    },
+    axiosPut: function axiosPut(updateData) {
+      var _this2 = this;
+
+      console.log(updateData, "ini update data");
+      console.log('masuk update data');
+      (0, _axios.default)({
+        url: "".concat(localhost, "task/").concat(updateData.id),
+        method: 'PUT',
+        headers: {
+          "token": localStorage.getItem("token")
+        },
+        data: {
+          description: updateData.description,
+          category: updateData.category
+        }
+      }).then(function (res) {
+        // console.log(res)
+        console.log("sukses update data");
+
+        _this2.toggleModal();
+
+        _this2.$emit("axiosGet");
       }).catch(function (err) {
         console.log(err);
       });
     }
+  },
+  data: function data() {
+    return {
+      showModal: false,
+      dataEdit: null
+    };
   }
 };
 exports.default = _default;
@@ -11693,45 +12359,69 @@ exports.default = _default;
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "anakolom" }, [
-    _c("div", { staticClass: "container-done" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "ini" },
-        _vm._l(_vm.doneData, function(i) {
-          return _c("div", { key: i.id, staticClass: "isi" }, [
-            _c("div", { staticClass: "pContent" }, [
-              _c("span", [_vm._v(" " + _vm._s(i.description))]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticStyle: {
-                    display: "flex",
-                    "justify-content": "flex-end"
-                  }
-                },
-                [
-                  _c("img", {
-                    staticStyle: { height: "25px", width: "25px" },
-                    attrs: { src: "/garbage-1.a0cb94e2.png" },
-                    on: {
-                      click: function($event) {
-                        return _vm.deleteData("" + i.id)
-                      }
+  return _c(
+    "div",
+    { staticClass: "anakolom" },
+    [
+      _c("div", { staticClass: "container-done" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "ini" },
+          _vm._l(_vm.doneData, function(i) {
+            return _c("div", { key: i.id, staticClass: "isi" }, [
+              _c("div", { staticClass: "pContent" }, [
+                _c("span", [_vm._v(" " + _vm._s(i.description))]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticStyle: {
+                      display: "flex",
+                      "justify-content": "flex-end"
                     }
-                  })
-                ]
-              )
+                  },
+                  [
+                    _c("img", {
+                      staticClass: "toggleImg",
+                      attrs: { src: "/zoom-in.0c4eb103.png" },
+                      on: {
+                        click: function($event) {
+                          return _vm.updateTrigger(
+                            i.id,
+                            "" + i.description,
+                            "" + i.category
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("img", {
+                      staticClass: "toggleImg",
+                      attrs: { src: "/garbage-1.a0cb94e2.png" },
+                      on: {
+                        click: function($event) {
+                          return _vm.deleteData("" + i.id)
+                        }
+                      }
+                    })
+                  ]
+                )
+              ])
             ])
-          ])
-        }),
-        0
-      )
-    ])
-  ])
+          }),
+          0
+        )
+      ]),
+      _vm._v(" "),
+      _c("editmodal", {
+        attrs: { showModal: _vm.showModal, dataEdit: _vm.dataEdit },
+        on: { toggleModal: _vm.toggleModal, axiosPut: _vm.axiosPut }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -11769,7 +12459,7 @@ render._withStripped = true
         
       }
     })();
-},{"axios":"../node_modules/axios/index.js","./../style/png/garbage-1.png":[["garbage-1.a0cb94e2.png","style/png/garbage-1.png"],"style/png/garbage-1.png"],"_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"components/modal.vue":[function(require,module,exports) {
+},{"axios":"../node_modules/axios/index.js","./edit_modal":"components/edit_modal.vue","./../style/png/zoom-in.png":[["zoom-in.0c4eb103.png","style/png/zoom-in.png"],"style/png/zoom-in.png"],"./../style/png/garbage-1.png":[["garbage-1.a0cb94e2.png","style/png/garbage-1.png"],"style/png/garbage-1.png"],"_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"components/modal.vue":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11819,8 +12509,28 @@ exports.default = void 0;
 //
 //
 //
+//
 var _default = {
-  props: ['showModal']
+  props: ['showModal'],
+  data: function data() {
+    return {
+      description: '',
+      category: ''
+    };
+  },
+  methods: {
+    createKanban: function createKanban() {
+      console.log('masuk kanban');
+      var data = {
+        description: this.description,
+        category: this.category
+      };
+      this.$emit("axiosCreate", data);
+      this.description = '';
+      this.category = '';
+      this.$emit('toggleModal');
+    }
+  }
 };
 exports.default = _default;
         var $9300a7 = exports.default || module.exports;
@@ -11854,7 +12564,7 @@ exports.default = _default;
       _c("transition", { attrs: { name: "slide", appear: "" } }, [
         _vm.showModal
           ? _c("div", { staticClass: "modal" }, [
-              _c("h1", [_vm._v("Add something kantan!")]),
+              _c("h1", {}, [_vm._v("Add something kantan!")]),
               _vm._v(" "),
               _c("div", { staticClass: "form-modal" }, [
                 _c("form", [
@@ -11869,40 +12579,97 @@ exports.default = _default;
                     ),
                     _c("br"),
                     _vm._v(" "),
-                    _c("input", {
-                      staticClass: "email",
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.description,
+                          expression: "description"
+                        }
+                      ],
+                      staticClass: "kanbanDesc",
                       attrs: {
                         type: "text",
                         placeholder: "e.g. Doing something"
+                      },
+                      domProps: { value: _vm.description },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.description = $event.target.value
+                        }
                       }
                     })
                   ]),
                   _vm._v(" "),
                   _c("br"),
                   _vm._v(" "),
-                  _c("div", [
-                    _c(
-                      "select",
-                      { staticClass: "select-opt", attrs: { id: "Category" } },
-                      [
-                        _c("option", { attrs: { value: "backlog" } }, [
-                          _vm._v("backlog")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "development" } }, [
-                          _vm._v("development")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "production" } }, [
-                          _vm._v("production")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "done" } }, [
-                          _vm._v("done")
-                        ])
-                      ]
-                    )
-                  ])
+                  _c(
+                    "div",
+                    {
+                      staticStyle: {
+                        display: "flex",
+                        "justify-content": "center",
+                        "margin-bottom": "3%"
+                      }
+                    },
+                    [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.category,
+                              expression: "category"
+                            }
+                          ],
+                          staticClass: "select-opt",
+                          attrs: { id: "Category" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.category = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { disabled: "", value: "" } }, [
+                            _vm._v(" Select Category ")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "backlog" } }, [
+                            _vm._v("backlog")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "product" } }, [
+                            _vm._v("product")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "development" } }, [
+                            _vm._v("development")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "done" } }, [
+                            _vm._v("done")
+                          ])
+                        ]
+                      )
+                    ]
+                  )
                 ])
               ]),
               _vm._v(" "),
@@ -11911,11 +12678,7 @@ exports.default = _default;
                   "button",
                   {
                     staticClass: "buttonModalBlue",
-                    on: {
-                      click: function($event) {
-                        return _vm.$emit("toggleModal")
-                      }
-                    }
+                    on: { click: _vm.createKanban }
                   },
                   [
                     _vm._v(
@@ -12122,11 +12885,36 @@ var _default = {
       console.log(array);
       this.maindata = array;
     },
-    axiosRegister: function axiosRegister(data) {},
+    axiosCreate: function axiosCreate(data) {
+      var _this3 = this;
+
+      (0, _axios.default)({
+        method: "POST",
+        url: "".concat(localhost, "task"),
+        headers: {
+          "token": localStorage.getItem("token")
+        },
+        data: {
+          category: data.category,
+          description: data.description
+        }
+      }).then(function (data) {
+        _this3.axiosGet();
+      }).catch(function (err) {
+        console.log(err);
+      });
+    },
     toggleModal: function toggleModal() {
       this.showModal = !this.showModal;
+    },
+    logout: function logout() {
+      console.log("trigger dong");
+      localStorage.removeItem("token");
+      this.isLogin = false;
+      this.loginPage = true;
     }
-  }
+  },
+  watch: {}
 };
 exports.default = _default;
         var $cf571f = exports.default || module.exports;
@@ -12149,7 +12937,8 @@ exports.default = _default;
         on: {
           showLogin: _vm.showLogin,
           axiosLogin: _vm.axiosLogin,
-          showRegister: _vm.showRegister
+          showRegister: _vm.showRegister,
+          logout: _vm.logout
         }
       }),
       _vm._v(" "),
@@ -12160,11 +12949,7 @@ exports.default = _default;
             [
               _c("backlog", {
                 attrs: { maindata: _vm.maindata },
-                on: {
-                  deleteThisArray: function($event) {
-                    return _vm.deleteThisArray($event)
-                  }
-                }
+                on: { axiosGet: _vm.axiosGet }
               }),
               _vm._v(" "),
               _c("product", {
@@ -12180,24 +12965,33 @@ exports.default = _default;
               _c("done", {
                 attrs: { maindata: _vm.maindata },
                 on: { axiosGet: _vm.axiosGet }
-              })
+              }),
+              _vm._v(" "),
+              _c("modal", {
+                attrs: { showModal: _vm.showModal },
+                on: {
+                  toggleModal: _vm.toggleModal,
+                  axiosCreate: _vm.axiosCreate
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticStyle: { display: "flex", "justify-content": "center" }
+                },
+                [
+                  _c(
+                    "button",
+                    { staticClass: "button", on: { click: _vm.toggleModal } },
+                    [_vm._v("\n       Add Data\n       ")]
+                  )
+                ]
+              )
             ],
             1
           )
-        : _vm._e(),
-      _vm._v(" "),
-      _c("modal", {
-        attrs: { showModal: _vm.showModal },
-        on: { toggleModal: _vm.toggleModal }
-      }),
-      _vm._v(" "),
-      _c("div", [
-        _c(
-          "button",
-          { staticClass: "button", on: { click: _vm.toggleModal } },
-          [_vm._v("\n       Add Data\n       ")]
-        )
-      ])
+        : _vm._e()
     ],
     1
   )
@@ -12231,7 +13025,7 @@ render._withStripped = true
         
       }
     })();
-},{"./components/loginRegister":"components/loginRegister.vue","axios":"../node_modules/axios/index.js","./components/backlog":"components/backlog.vue","./components/product":"components/product.vue","./components/development":"components/development.vue","./components/done":"components/done.vue","./components/modal":"components/modal.vue","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"main.js":[function(require,module,exports) {
+},{"./components/loginRegister":"components/loginRegister.vue","axios":"../node_modules/axios/index.js","./components/backlog":"components/backlog.vue","./components/product":"components/product.vue","./components/development":"components/development.vue","./components/done":"components/done.vue","./components/modal":"components/modal.vue","_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"main.js":[function(require,module,exports) {
 "use strict";
 
 var _vue = _interopRequireDefault(require("vue"));
@@ -12273,7 +13067,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "40721" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "36067" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

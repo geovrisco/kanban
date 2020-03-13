@@ -55,6 +55,16 @@ class Controller {
             next(err)
         })
     }
+
+    static getTaskById(request,response,next){
+        Task.findByPk(request.params.id)
+        .then(data=>{
+            response.json(data)
+        })
+        .catch(err=>{
+            next({status:404,msg:'data doenst exist'})
+        })
+    }
 }
 
 

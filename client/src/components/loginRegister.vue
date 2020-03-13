@@ -22,7 +22,7 @@
                 <span class="navTitle">KanTan</span>
             </div>
             <div class="marginH3"  >
-                <h2 style="padding-top: 10%;font-family: itu;" @click="logout" >logOut</h2>
+                <h2 style="padding-top: 10%;font-family: itu;" @click="$emit('logout')" >logOut</h2>
             </div>
         </div>
         <!-- END NAVBAR -->
@@ -55,19 +55,19 @@
                         <span class="backlog"> Register</span>
                         <div class="email-container">
                             <label class="backlog" style="font-size: 15px;">Name:</label><br>
-                            <input class="email" type="text" placeholder="Your name here">
+                            <input class="email" type="text" placeholder="Your name here" v-model="registerName">
                         </div>
                         <div class="email-container">
                             <label class="backlog" style="font-size: 15px;">Email:</label><br>
-                            <input class="email" type="email" placeholder="Your email here">
+                            <input class="email" type="email" placeholder="Your email here" v-model="registerEmail">
                         </div>  
                         
                         <div class="email-container">
                             <label class="backlog" style="font-size: 15px;">Password:</label><br>
-                            <input class="password" type="password" placeholder="Your password here">
+                            <input class="password" type="password" placeholder="Your password here" v-model="registerPassword">
                         </div>
                         <br><br>
-                        <div> <a class=button> Register </a> </div>
+                        <div> <a class=button @click="submitRegister"> Register </a> </div>
                     </form>
                     <div class='login-register'>
                         
@@ -91,10 +91,7 @@
 export default {
     props:['isLogin','loginPage'],
     methods:{
-        logout(){
-            localStorage.removeItem("token")
-            this.isLogin=false
-        },
+        
         submitlogin(){
             let data={
                 email:this.email,
@@ -102,12 +99,23 @@ export default {
             }
             console.log(data)
             this.$emit(`axiosLogin`,data)
+        },
+        submitRegister(){
+            let data = {
+                email:this.registerEmail,
+                password:this.registerPassword,
+                name:this.registerName
+            }
+            console.log(data)
         }
     },
     data(){
         return{
             email:'',
-            password:''
+            password:'',
+            registerEmail:'',
+            registerPassword:'',
+            registerName:''
         }
     }
 }
