@@ -8542,979 +8542,7 @@ if (inBrowser) {
 
 var _default = Vue;
 exports.default = _default;
-},{}],"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
-var bundleURL = null;
-
-function getBundleURLCached() {
-  if (!bundleURL) {
-    bundleURL = getBundleURL();
-  }
-
-  return bundleURL;
-}
-
-function getBundleURL() {
-  // Attempt to find the URL of the current script and use that as the base URL
-  try {
-    throw new Error();
-  } catch (err) {
-    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
-
-    if (matches) {
-      return getBaseURL(matches[0]);
-    }
-  }
-
-  return '/';
-}
-
-function getBaseURL(url) {
-  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)\/[^/]+$/, '$1') + '/';
-}
-
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-},{}],"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
-var bundle = require('./bundle-url');
-
-function updateLink(link) {
-  var newLink = link.cloneNode();
-
-  newLink.onload = function () {
-    link.remove();
-  };
-
-  newLink.href = link.href.split('?')[0] + '?' + Date.now();
-  link.parentNode.insertBefore(newLink, link.nextSibling);
-}
-
-var cssTimeout = null;
-
-function reloadCSS() {
-  if (cssTimeout) {
-    return;
-  }
-
-  cssTimeout = setTimeout(function () {
-    var links = document.querySelectorAll('link[rel="stylesheet"]');
-
-    for (var i = 0; i < links.length; i++) {
-      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
-        updateLink(links[i]);
-      }
-    }
-
-    cssTimeout = null;
-  }, 50);
-}
-
-module.exports = reloadCSS;
-},{"./bundle-url":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"../node_modules/vue-hot-reload-api/dist/index.js":[function(require,module,exports) {
-var Vue // late bind
-var version
-var map = Object.create(null)
-if (typeof window !== 'undefined') {
-  window.__VUE_HOT_MAP__ = map
-}
-var installed = false
-var isBrowserify = false
-var initHookName = 'beforeCreate'
-
-exports.install = function (vue, browserify) {
-  if (installed) { return }
-  installed = true
-
-  Vue = vue.__esModule ? vue.default : vue
-  version = Vue.version.split('.').map(Number)
-  isBrowserify = browserify
-
-  // compat with < 2.0.0-alpha.7
-  if (Vue.config._lifecycleHooks.indexOf('init') > -1) {
-    initHookName = 'init'
-  }
-
-  exports.compatible = version[0] >= 2
-  if (!exports.compatible) {
-    console.warn(
-      '[HMR] You are using a version of vue-hot-reload-api that is ' +
-        'only compatible with Vue.js core ^2.0.0.'
-    )
-    return
-  }
-}
-
-/**
- * Create a record for a hot module, which keeps track of its constructor
- * and instances
- *
- * @param {String} id
- * @param {Object} options
- */
-
-exports.createRecord = function (id, options) {
-  if(map[id]) { return }
-
-  var Ctor = null
-  if (typeof options === 'function') {
-    Ctor = options
-    options = Ctor.options
-  }
-  makeOptionsHot(id, options)
-  map[id] = {
-    Ctor: Ctor,
-    options: options,
-    instances: []
-  }
-}
-
-/**
- * Check if module is recorded
- *
- * @param {String} id
- */
-
-exports.isRecorded = function (id) {
-  return typeof map[id] !== 'undefined'
-}
-
-/**
- * Make a Component options object hot.
- *
- * @param {String} id
- * @param {Object} options
- */
-
-function makeOptionsHot(id, options) {
-  if (options.functional) {
-    var render = options.render
-    options.render = function (h, ctx) {
-      var instances = map[id].instances
-      if (ctx && instances.indexOf(ctx.parent) < 0) {
-        instances.push(ctx.parent)
-      }
-      return render(h, ctx)
-    }
-  } else {
-    injectHook(options, initHookName, function() {
-      var record = map[id]
-      if (!record.Ctor) {
-        record.Ctor = this.constructor
-      }
-      record.instances.push(this)
-    })
-    injectHook(options, 'beforeDestroy', function() {
-      var instances = map[id].instances
-      instances.splice(instances.indexOf(this), 1)
-    })
-  }
-}
-
-/**
- * Inject a hook to a hot reloadable component so that
- * we can keep track of it.
- *
- * @param {Object} options
- * @param {String} name
- * @param {Function} hook
- */
-
-function injectHook(options, name, hook) {
-  var existing = options[name]
-  options[name] = existing
-    ? Array.isArray(existing) ? existing.concat(hook) : [existing, hook]
-    : [hook]
-}
-
-function tryWrap(fn) {
-  return function (id, arg) {
-    try {
-      fn(id, arg)
-    } catch (e) {
-      console.error(e)
-      console.warn(
-        'Something went wrong during Vue component hot-reload. Full reload required.'
-      )
-    }
-  }
-}
-
-function updateOptions (oldOptions, newOptions) {
-  for (var key in oldOptions) {
-    if (!(key in newOptions)) {
-      delete oldOptions[key]
-    }
-  }
-  for (var key$1 in newOptions) {
-    oldOptions[key$1] = newOptions[key$1]
-  }
-}
-
-exports.rerender = tryWrap(function (id, options) {
-  var record = map[id]
-  if (!options) {
-    record.instances.slice().forEach(function (instance) {
-      instance.$forceUpdate()
-    })
-    return
-  }
-  if (typeof options === 'function') {
-    options = options.options
-  }
-  if (record.Ctor) {
-    record.Ctor.options.render = options.render
-    record.Ctor.options.staticRenderFns = options.staticRenderFns
-    record.instances.slice().forEach(function (instance) {
-      instance.$options.render = options.render
-      instance.$options.staticRenderFns = options.staticRenderFns
-      // reset static trees
-      // pre 2.5, all static trees are cached together on the instance
-      if (instance._staticTrees) {
-        instance._staticTrees = []
-      }
-      // 2.5.0
-      if (Array.isArray(record.Ctor.options.cached)) {
-        record.Ctor.options.cached = []
-      }
-      // 2.5.3
-      if (Array.isArray(instance.$options.cached)) {
-        instance.$options.cached = []
-      }
-
-      // post 2.5.4: v-once trees are cached on instance._staticTrees.
-      // Pure static trees are cached on the staticRenderFns array
-      // (both already reset above)
-
-      // 2.6: temporarily mark rendered scoped slots as unstable so that
-      // child components can be forced to update
-      var restore = patchScopedSlots(instance)
-      instance.$forceUpdate()
-      instance.$nextTick(restore)
-    })
-  } else {
-    // functional or no instance created yet
-    record.options.render = options.render
-    record.options.staticRenderFns = options.staticRenderFns
-
-    // handle functional component re-render
-    if (record.options.functional) {
-      // rerender with full options
-      if (Object.keys(options).length > 2) {
-        updateOptions(record.options, options)
-      } else {
-        // template-only rerender.
-        // need to inject the style injection code for CSS modules
-        // to work properly.
-        var injectStyles = record.options._injectStyles
-        if (injectStyles) {
-          var render = options.render
-          record.options.render = function (h, ctx) {
-            injectStyles.call(ctx)
-            return render(h, ctx)
-          }
-        }
-      }
-      record.options._Ctor = null
-      // 2.5.3
-      if (Array.isArray(record.options.cached)) {
-        record.options.cached = []
-      }
-      record.instances.slice().forEach(function (instance) {
-        instance.$forceUpdate()
-      })
-    }
-  }
-})
-
-exports.reload = tryWrap(function (id, options) {
-  var record = map[id]
-  if (options) {
-    if (typeof options === 'function') {
-      options = options.options
-    }
-    makeOptionsHot(id, options)
-    if (record.Ctor) {
-      if (version[1] < 2) {
-        // preserve pre 2.2 behavior for global mixin handling
-        record.Ctor.extendOptions = options
-      }
-      var newCtor = record.Ctor.super.extend(options)
-      // prevent record.options._Ctor from being overwritten accidentally
-      newCtor.options._Ctor = record.options._Ctor
-      record.Ctor.options = newCtor.options
-      record.Ctor.cid = newCtor.cid
-      record.Ctor.prototype = newCtor.prototype
-      if (newCtor.release) {
-        // temporary global mixin strategy used in < 2.0.0-alpha.6
-        newCtor.release()
-      }
-    } else {
-      updateOptions(record.options, options)
-    }
-  }
-  record.instances.slice().forEach(function (instance) {
-    if (instance.$vnode && instance.$vnode.context) {
-      instance.$vnode.context.$forceUpdate()
-    } else {
-      console.warn(
-        'Root or manually mounted instance modified. Full reload required.'
-      )
-    }
-  })
-})
-
-// 2.6 optimizes template-compiled scoped slots and skips updates if child
-// only uses scoped slots. We need to patch the scoped slots resolving helper
-// to temporarily mark all scoped slots as unstable in order to force child
-// updates.
-function patchScopedSlots (instance) {
-  if (!instance._u) { return }
-  // https://github.com/vuejs/vue/blob/dev/src/core/instance/render-helpers/resolve-scoped-slots.js
-  var original = instance._u
-  instance._u = function (slots) {
-    try {
-      // 2.6.4 ~ 2.6.6
-      return original(slots, true)
-    } catch (e) {
-      // 2.5 / >= 2.6.7
-      return original(slots, null, true)
-    }
-  }
-  return function () {
-    instance._u = original
-  }
-}
-
-},{}],"components/loginRegister.vue":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default = {
-  props: ['isLogin', 'loginPage'],
-  methods: {
-    submitlogin: function submitlogin() {
-      var data = {
-        email: this.email,
-        password: this.password
-      };
-      console.log(data);
-      this.$emit("axiosLogin", data);
-    },
-    submitRegister: function submitRegister() {
-      var data = {
-        email: this.registerEmail,
-        password: this.registerPassword,
-        name: this.registerName
-      };
-      console.log(data);
-      this.$emit("axiosRegister", data);
-    }
-  },
-  data: function data() {
-    return {
-      email: '',
-      password: '',
-      registerEmail: '',
-      registerPassword: '',
-      registerName: ''
-    };
-  }
-};
-exports.default = _default;
-        var $a637b3 = exports.default || module.exports;
-      
-      if (typeof $a637b3 === 'function') {
-        $a637b3 = $a637b3.options;
-      }
-    
-        /* template */
-        Object.assign($a637b3, (function () {
-          var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [
-    !_vm.isLogin
-      ? _c(
-          "div",
-          {
-            staticClass: "nav",
-            staticStyle: { display: "flex", "justify-content": "center" }
-          },
-          [
-            _c("div", { staticClass: "marginH3" }, [
-              _c(
-                "h2",
-                {
-                  staticStyle: { "padding-top": "10%", "font-family": "'itu'" },
-                  on: {
-                    click: function($event) {
-                      return _vm.$emit("showLogin")
-                    }
-                  }
-                },
-                [_vm._v("Sign-In")]
-              )
-            ]),
-            _vm._v(" "),
-            _vm._m(0),
-            _vm._v(" "),
-            _c("div", { staticClass: "marginH3" }, [
-              _c(
-                "h2",
-                {
-                  staticStyle: { "padding-top": "10%", "font-family": "itu" },
-                  on: {
-                    click: function($event) {
-                      return _vm.$emit("showRegister")
-                    }
-                  }
-                },
-                [_vm._v("Register")]
-              )
-            ])
-          ]
-        )
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.isLogin
-      ? _c(
-          "div",
-          {
-            staticClass: "nav",
-            staticStyle: { display: "flex", "justify-content": "center" }
-          },
-          [
-            _vm._m(1),
-            _vm._v(" "),
-            _vm._m(2),
-            _vm._v(" "),
-            _c("div", { staticClass: "marginH3" }, [
-              _c(
-                "h2",
-                {
-                  staticStyle: { "padding-top": "10%", "font-family": "itu" },
-                  on: {
-                    click: function($event) {
-                      return _vm.$emit("logout")
-                    }
-                  }
-                },
-                [_vm._v("logOut")]
-              )
-            ])
-          ]
-        )
-      : _vm._e(),
-    _vm._v(" "),
-    !_vm.isLogin
-      ? _c("div", { staticClass: "containerLoginRegister" }, [
-          _c(
-            "div",
-            {
-              staticStyle: {
-                display: "flex",
-                "justify-content": "space-around",
-                "padding-bottom": "30px"
-              }
-            },
-            [
-              _c("div", { staticClass: "login-register" }, [
-                _vm.loginPage
-                  ? _c("form", { staticClass: "frm-login" }, [
-                      _c(
-                        "span",
-                        {
-                          staticClass: "backlog",
-                          staticStyle: { "font-size": "33" }
-                        },
-                        [_vm._v(" Sign in!")]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "email-container" }, [
-                        _c(
-                          "label",
-                          {
-                            staticClass: "backlog",
-                            staticStyle: { "font-size": "22px" }
-                          },
-                          [_vm._v("Email:")]
-                        ),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.email,
-                              expression: "email"
-                            }
-                          ],
-                          staticClass: "email",
-                          attrs: { type: "email" },
-                          domProps: { value: _vm.email },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.email = $event.target.value
-                            }
-                          }
-                        })
-                      ]),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("div", [
-                        _c(
-                          "label",
-                          {
-                            staticClass: "backlog",
-                            staticStyle: { "font-size": "22px" }
-                          },
-                          [_vm._v("Password:")]
-                        ),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.password,
-                              expression: "password"
-                            }
-                          ],
-                          staticClass: "password",
-                          attrs: { type: "password" },
-                          domProps: { value: _vm.password },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.password = $event.target.value
-                            }
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", [
-                        _c("p", [
-                          _vm._v("Dont have account? "),
-                          _c(
-                            "a",
-                            {
-                              staticClass: "hovr",
-                              staticStyle: { "font-family": "ini" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.$emit("showRegister")
-                                }
-                              }
-                            },
-                            [_vm._v("Sign Up!")]
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "button",
-                            on: { click: _vm.submitlogin }
-                          },
-                          [_vm._v(" Login ")]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("br"),
-                      _c("br"),
-                      _vm._v(" "),
-                      _vm._m(3)
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                !_vm.loginPage
-                  ? _c(
-                      "form",
-                      {
-                        staticClass: "frm-login",
-                        on: {
-                          submit: [
-                            function($event) {
-                              $event.preventDefault()
-                            },
-                            _vm.submitRegister
-                          ]
-                        }
-                      },
-                      [
-                        _c("span", { staticClass: "backlog" }, [
-                          _vm._v(" Register")
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "email-container" }, [
-                          _c(
-                            "label",
-                            {
-                              staticClass: "backlog",
-                              staticStyle: { "font-size": "15px" }
-                            },
-                            [_vm._v("Name:")]
-                          ),
-                          _c("br"),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.registerName,
-                                expression: "registerName"
-                              }
-                            ],
-                            staticClass: "email",
-                            attrs: {
-                              type: "text",
-                              placeholder: "Your name here"
-                            },
-                            domProps: { value: _vm.registerName },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.registerName = $event.target.value
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "email-container" }, [
-                          _c(
-                            "label",
-                            {
-                              staticClass: "backlog",
-                              staticStyle: { "font-size": "15px" }
-                            },
-                            [_vm._v("Email:")]
-                          ),
-                          _c("br"),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.registerEmail,
-                                expression: "registerEmail"
-                              }
-                            ],
-                            staticClass: "email",
-                            attrs: {
-                              type: "email",
-                              placeholder: "Your email here"
-                            },
-                            domProps: { value: _vm.registerEmail },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.registerEmail = $event.target.value
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "email-container" }, [
-                          _c(
-                            "label",
-                            {
-                              staticClass: "backlog",
-                              staticStyle: { "font-size": "15px" }
-                            },
-                            [_vm._v("Password:")]
-                          ),
-                          _c("br"),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.registerPassword,
-                                expression: "registerPassword"
-                              }
-                            ],
-                            staticClass: "password",
-                            attrs: {
-                              type: "password",
-                              placeholder: "Your password here"
-                            },
-                            domProps: { value: _vm.registerPassword },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.registerPassword = $event.target.value
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("br"),
-                        _c("br"),
-                        _vm._v(" "),
-                        _vm._m(4)
-                      ]
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _c("div", { staticClass: "login-register" })
-              ]),
-              _vm._v(" "),
-              _vm._m(5)
-            ]
-          )
-        ])
-      : _vm._e()
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "marginH3" }, [
-      _c("span", { staticClass: "navTitle" }, [_vm._v("KanTan")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "marginH3" }, [
-      _c(
-        "h2",
-        { staticStyle: { "padding-top": "10%", "font-family": "'itu'" } },
-        [_vm._v("its")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "marginH3" }, [
-      _c("span", { staticClass: "navTitle" }, [_vm._v("KanTan")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c(
-        "span",
-        {
-          staticStyle: {
-            "font-family": "ini",
-            "background-image":
-              "linear-gradient(to right, rgba(255, 220, 23, 0.75),rgba(44, 220, 40,0.4))",
-            "text-align": "center",
-            padding: "5px",
-            "border-radius": "20px"
-          }
-        },
-        [_vm._v("Or, with Google! ")]
-      ),
-      _vm._v(" "),
-      _c("br"),
-      _vm._v(" "),
-      _c("br"),
-      _vm._v(" "),
-      _c("div", {
-        staticClass: "g-signin2",
-        attrs: { "data-onsuccess": "onSignIn" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("input", {
-        staticClass: "button",
-        attrs: { type: "submit", value: "Sign In" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "imgcontainer", staticStyle: { "text-align": "center" } },
-      [
-        _c(
-          "span",
-          {
-            staticStyle: {
-              "background-color": "white",
-              "padding-left": "10px",
-              "padding-right": "10px",
-              "border-radius": "20px",
-              "font-family": "itz",
-              "font-size": "80px",
-              color: "rgb(70, 135, 165)"
-            }
-          },
-          [_vm._v(" Kantan Kanban")]
-        ),
-        _vm._v(" "),
-        _c("div", [
-          _c("img", {
-            staticStyle: { width: "400px", height: "300px" },
-            attrs: { src: "/Logo.ea73eee6.png" }
-          })
-        ])
-      ]
-    )
-  }
-]
-render._withStripped = true
-
-          return {
-            render: render,
-            staticRenderFns: staticRenderFns,
-            _compiled: true,
-            _scopeId: null,
-            functional: undefined
-          };
-        })());
-      
-    /* hot reload */
-    (function () {
-      if (module.hot) {
-        var api = require('vue-hot-reload-api');
-        api.install(require('vue'));
-        if (api.compatible) {
-          module.hot.accept();
-          if (!module.hot.data) {
-            api.createRecord('$a637b3', $a637b3);
-          } else {
-            api.reload('$a637b3', $a637b3);
-          }
-        }
-
-        
-      }
-    })();
-},{"/home/gabrielgv/Desktop/Phase_2/week2/kanban/client/src/style/Logo.png":[["Logo.ea73eee6.png","style/Logo.png"],"style/Logo.png"],"_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"../node_modules/axios/lib/helpers/bind.js":[function(require,module,exports) {
+},{}],"../node_modules/axios/lib/helpers/bind.js":[function(require,module,exports) {
 'use strict';
 
 module.exports = function bind(fn, thisArg) {
@@ -11277,7 +10305,1008 @@ module.exports.default = axios;
 
 },{"./utils":"../node_modules/axios/lib/utils.js","./helpers/bind":"../node_modules/axios/lib/helpers/bind.js","./core/Axios":"../node_modules/axios/lib/core/Axios.js","./core/mergeConfig":"../node_modules/axios/lib/core/mergeConfig.js","./defaults":"../node_modules/axios/lib/defaults.js","./cancel/Cancel":"../node_modules/axios/lib/cancel/Cancel.js","./cancel/CancelToken":"../node_modules/axios/lib/cancel/CancelToken.js","./cancel/isCancel":"../node_modules/axios/lib/cancel/isCancel.js","./helpers/spread":"../node_modules/axios/lib/helpers/spread.js"}],"../node_modules/axios/index.js":[function(require,module,exports) {
 module.exports = require('./lib/axios');
-},{"./lib/axios":"../node_modules/axios/lib/axios.js"}],"components/edit_modal.vue":[function(require,module,exports) {
+},{"./lib/axios":"../node_modules/axios/lib/axios.js"}],"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+var bundleURL = null;
+
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
+  }
+
+  return bundleURL;
+}
+
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
+
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
+
+  return '/';
+}
+
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)\/[^/]+$/, '$1') + '/';
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+var bundle = require('./bundle-url');
+
+function updateLink(link) {
+  var newLink = link.cloneNode();
+
+  newLink.onload = function () {
+    link.remove();
+  };
+
+  newLink.href = link.href.split('?')[0] + '?' + Date.now();
+  link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+
+var cssTimeout = null;
+
+function reloadCSS() {
+  if (cssTimeout) {
+    return;
+  }
+
+  cssTimeout = setTimeout(function () {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
+
+    for (var i = 0; i < links.length; i++) {
+      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
+        updateLink(links[i]);
+      }
+    }
+
+    cssTimeout = null;
+  }, 50);
+}
+
+module.exports = reloadCSS;
+},{"./bundle-url":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"../node_modules/vue-hot-reload-api/dist/index.js":[function(require,module,exports) {
+var Vue // late bind
+var version
+var map = Object.create(null)
+if (typeof window !== 'undefined') {
+  window.__VUE_HOT_MAP__ = map
+}
+var installed = false
+var isBrowserify = false
+var initHookName = 'beforeCreate'
+
+exports.install = function (vue, browserify) {
+  if (installed) { return }
+  installed = true
+
+  Vue = vue.__esModule ? vue.default : vue
+  version = Vue.version.split('.').map(Number)
+  isBrowserify = browserify
+
+  // compat with < 2.0.0-alpha.7
+  if (Vue.config._lifecycleHooks.indexOf('init') > -1) {
+    initHookName = 'init'
+  }
+
+  exports.compatible = version[0] >= 2
+  if (!exports.compatible) {
+    console.warn(
+      '[HMR] You are using a version of vue-hot-reload-api that is ' +
+        'only compatible with Vue.js core ^2.0.0.'
+    )
+    return
+  }
+}
+
+/**
+ * Create a record for a hot module, which keeps track of its constructor
+ * and instances
+ *
+ * @param {String} id
+ * @param {Object} options
+ */
+
+exports.createRecord = function (id, options) {
+  if(map[id]) { return }
+
+  var Ctor = null
+  if (typeof options === 'function') {
+    Ctor = options
+    options = Ctor.options
+  }
+  makeOptionsHot(id, options)
+  map[id] = {
+    Ctor: Ctor,
+    options: options,
+    instances: []
+  }
+}
+
+/**
+ * Check if module is recorded
+ *
+ * @param {String} id
+ */
+
+exports.isRecorded = function (id) {
+  return typeof map[id] !== 'undefined'
+}
+
+/**
+ * Make a Component options object hot.
+ *
+ * @param {String} id
+ * @param {Object} options
+ */
+
+function makeOptionsHot(id, options) {
+  if (options.functional) {
+    var render = options.render
+    options.render = function (h, ctx) {
+      var instances = map[id].instances
+      if (ctx && instances.indexOf(ctx.parent) < 0) {
+        instances.push(ctx.parent)
+      }
+      return render(h, ctx)
+    }
+  } else {
+    injectHook(options, initHookName, function() {
+      var record = map[id]
+      if (!record.Ctor) {
+        record.Ctor = this.constructor
+      }
+      record.instances.push(this)
+    })
+    injectHook(options, 'beforeDestroy', function() {
+      var instances = map[id].instances
+      instances.splice(instances.indexOf(this), 1)
+    })
+  }
+}
+
+/**
+ * Inject a hook to a hot reloadable component so that
+ * we can keep track of it.
+ *
+ * @param {Object} options
+ * @param {String} name
+ * @param {Function} hook
+ */
+
+function injectHook(options, name, hook) {
+  var existing = options[name]
+  options[name] = existing
+    ? Array.isArray(existing) ? existing.concat(hook) : [existing, hook]
+    : [hook]
+}
+
+function tryWrap(fn) {
+  return function (id, arg) {
+    try {
+      fn(id, arg)
+    } catch (e) {
+      console.error(e)
+      console.warn(
+        'Something went wrong during Vue component hot-reload. Full reload required.'
+      )
+    }
+  }
+}
+
+function updateOptions (oldOptions, newOptions) {
+  for (var key in oldOptions) {
+    if (!(key in newOptions)) {
+      delete oldOptions[key]
+    }
+  }
+  for (var key$1 in newOptions) {
+    oldOptions[key$1] = newOptions[key$1]
+  }
+}
+
+exports.rerender = tryWrap(function (id, options) {
+  var record = map[id]
+  if (!options) {
+    record.instances.slice().forEach(function (instance) {
+      instance.$forceUpdate()
+    })
+    return
+  }
+  if (typeof options === 'function') {
+    options = options.options
+  }
+  if (record.Ctor) {
+    record.Ctor.options.render = options.render
+    record.Ctor.options.staticRenderFns = options.staticRenderFns
+    record.instances.slice().forEach(function (instance) {
+      instance.$options.render = options.render
+      instance.$options.staticRenderFns = options.staticRenderFns
+      // reset static trees
+      // pre 2.5, all static trees are cached together on the instance
+      if (instance._staticTrees) {
+        instance._staticTrees = []
+      }
+      // 2.5.0
+      if (Array.isArray(record.Ctor.options.cached)) {
+        record.Ctor.options.cached = []
+      }
+      // 2.5.3
+      if (Array.isArray(instance.$options.cached)) {
+        instance.$options.cached = []
+      }
+
+      // post 2.5.4: v-once trees are cached on instance._staticTrees.
+      // Pure static trees are cached on the staticRenderFns array
+      // (both already reset above)
+
+      // 2.6: temporarily mark rendered scoped slots as unstable so that
+      // child components can be forced to update
+      var restore = patchScopedSlots(instance)
+      instance.$forceUpdate()
+      instance.$nextTick(restore)
+    })
+  } else {
+    // functional or no instance created yet
+    record.options.render = options.render
+    record.options.staticRenderFns = options.staticRenderFns
+
+    // handle functional component re-render
+    if (record.options.functional) {
+      // rerender with full options
+      if (Object.keys(options).length > 2) {
+        updateOptions(record.options, options)
+      } else {
+        // template-only rerender.
+        // need to inject the style injection code for CSS modules
+        // to work properly.
+        var injectStyles = record.options._injectStyles
+        if (injectStyles) {
+          var render = options.render
+          record.options.render = function (h, ctx) {
+            injectStyles.call(ctx)
+            return render(h, ctx)
+          }
+        }
+      }
+      record.options._Ctor = null
+      // 2.5.3
+      if (Array.isArray(record.options.cached)) {
+        record.options.cached = []
+      }
+      record.instances.slice().forEach(function (instance) {
+        instance.$forceUpdate()
+      })
+    }
+  }
+})
+
+exports.reload = tryWrap(function (id, options) {
+  var record = map[id]
+  if (options) {
+    if (typeof options === 'function') {
+      options = options.options
+    }
+    makeOptionsHot(id, options)
+    if (record.Ctor) {
+      if (version[1] < 2) {
+        // preserve pre 2.2 behavior for global mixin handling
+        record.Ctor.extendOptions = options
+      }
+      var newCtor = record.Ctor.super.extend(options)
+      // prevent record.options._Ctor from being overwritten accidentally
+      newCtor.options._Ctor = record.options._Ctor
+      record.Ctor.options = newCtor.options
+      record.Ctor.cid = newCtor.cid
+      record.Ctor.prototype = newCtor.prototype
+      if (newCtor.release) {
+        // temporary global mixin strategy used in < 2.0.0-alpha.6
+        newCtor.release()
+      }
+    } else {
+      updateOptions(record.options, options)
+    }
+  }
+  record.instances.slice().forEach(function (instance) {
+    if (instance.$vnode && instance.$vnode.context) {
+      instance.$vnode.context.$forceUpdate()
+    } else {
+      console.warn(
+        'Root or manually mounted instance modified. Full reload required.'
+      )
+    }
+  })
+})
+
+// 2.6 optimizes template-compiled scoped slots and skips updates if child
+// only uses scoped slots. We need to patch the scoped slots resolving helper
+// to temporarily mark all scoped slots as unstable in order to force child
+// updates.
+function patchScopedSlots (instance) {
+  if (!instance._u) { return }
+  // https://github.com/vuejs/vue/blob/dev/src/core/instance/render-helpers/resolve-scoped-slots.js
+  var original = instance._u
+  instance._u = function (slots) {
+    try {
+      // 2.6.4 ~ 2.6.6
+      return original(slots, true)
+    } catch (e) {
+      // 2.5 / >= 2.6.7
+      return original(slots, null, true)
+    }
+  }
+  return function () {
+    instance._u = original
+  }
+}
+
+},{}],"components/loginRegister.vue":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _axios = _interopRequireDefault(require("axios"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var localhost = 'http://localhost:3000/';
+var _default = {
+  props: ['isLogin', 'loginPage'],
+  mounted: function mounted() {
+    gapi.signin2.render('google-signin-button', {
+      onsuccess: this.onSignIn
+    });
+  },
+  methods: {
+    submitlogin: function submitlogin() {
+      var data = {
+        email: this.email,
+        password: this.password
+      };
+      console.log(data);
+      this.$emit("axiosLogin", data);
+    },
+    submitRegister: function submitRegister() {
+      var data = {
+        email: this.registerEmail,
+        password: this.registerPassword,
+        name: this.registerName
+      };
+      console.log(data);
+      this.$emit("axiosRegister", data);
+    },
+    onSignIn: function onSignIn(user) {
+      var _this = this;
+
+      var id_token = user.getAuthResponse().id_token;
+      console.log(id_token, 'masuk sini');
+      (0, _axios.default)({
+        method: "POST",
+        url: "".concat(localhost, "user/glSign"),
+        data: {
+          token: id_token
+        }
+      }).then(function (res) {
+        console.log(res, 'ini apa???');
+        localStorage.setItem("token", res.data.token);
+
+        _this.$emit("googleLogin");
+      }).catch(function (err) {
+        console.log('masuk error');
+        console.log(err);
+      });
+    }
+  },
+  data: function data() {
+    return {
+      email: '',
+      password: '',
+      registerEmail: '',
+      registerPassword: '',
+      registerName: ''
+    };
+  }
+};
+exports.default = _default;
+        var $a637b3 = exports.default || module.exports;
+      
+      if (typeof $a637b3 === 'function') {
+        $a637b3 = $a637b3.options;
+      }
+    
+        /* template */
+        Object.assign($a637b3, (function () {
+          var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    !_vm.isLogin
+      ? _c(
+          "div",
+          {
+            staticClass: "nav",
+            staticStyle: { display: "flex", "justify-content": "center" }
+          },
+          [
+            _c("div", { staticClass: "marginH3" }, [
+              _c(
+                "h2",
+                {
+                  staticStyle: { "padding-top": "10%", "font-family": "'itu'" },
+                  on: {
+                    click: function($event) {
+                      return _vm.$emit("showLogin")
+                    }
+                  }
+                },
+                [_vm._v("Sign-In")]
+              )
+            ]),
+            _vm._v(" "),
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "marginH3" }, [
+              _c(
+                "h2",
+                {
+                  staticStyle: { "padding-top": "10%", "font-family": "itu" },
+                  on: {
+                    click: function($event) {
+                      return _vm.$emit("showRegister")
+                    }
+                  }
+                },
+                [_vm._v("Register")]
+              )
+            ])
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.isLogin
+      ? _c(
+          "div",
+          {
+            staticClass: "nav",
+            staticStyle: { display: "flex", "justify-content": "center" }
+          },
+          [
+            _vm._m(1),
+            _vm._v(" "),
+            _vm._m(2),
+            _vm._v(" "),
+            _c("div", { staticClass: "marginH3" }, [
+              _c(
+                "h2",
+                {
+                  staticStyle: { "padding-top": "10%", "font-family": "itu" },
+                  on: {
+                    click: function($event) {
+                      return _vm.$emit("logout")
+                    }
+                  }
+                },
+                [_vm._v("logOut")]
+              )
+            ])
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.isLogin
+      ? _c("div", { staticClass: "containerLoginRegister" }, [
+          _c(
+            "div",
+            {
+              staticStyle: {
+                display: "flex",
+                "justify-content": "space-around",
+                "padding-bottom": "30px"
+              }
+            },
+            [
+              _c("div", { staticClass: "login-register" }, [
+                _vm.loginPage
+                  ? _c("form", { staticClass: "frm-login" }, [
+                      _c(
+                        "span",
+                        {
+                          staticClass: "backlog",
+                          staticStyle: { "font-size": "33" }
+                        },
+                        [_vm._v(" Sign in!")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "email-container" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "backlog",
+                            staticStyle: { "font-size": "22px" }
+                          },
+                          [_vm._v("Email:")]
+                        ),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.email,
+                              expression: "email"
+                            }
+                          ],
+                          staticClass: "email",
+                          attrs: { type: "email" },
+                          domProps: { value: _vm.email },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.email = $event.target.value
+                            }
+                          }
+                        })
+                      ]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("div", [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "backlog",
+                            staticStyle: { "font-size": "22px" }
+                          },
+                          [_vm._v("Password:")]
+                        ),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.password,
+                              expression: "password"
+                            }
+                          ],
+                          staticClass: "password",
+                          attrs: { type: "password" },
+                          domProps: { value: _vm.password },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.password = $event.target.value
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", [
+                        _c("p", [
+                          _vm._v("Dont have account? "),
+                          _c(
+                            "a",
+                            {
+                              staticClass: "hovr",
+                              staticStyle: { "font-family": "ini" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$emit("showRegister")
+                                }
+                              }
+                            },
+                            [_vm._v("Sign Up!")]
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "button",
+                            on: { click: _vm.submitlogin }
+                          },
+                          [_vm._v(" Login ")]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm._m(3)
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                !_vm.loginPage
+                  ? _c(
+                      "form",
+                      {
+                        staticClass: "frm-login",
+                        on: {
+                          submit: [
+                            function($event) {
+                              $event.preventDefault()
+                            },
+                            _vm.submitRegister
+                          ]
+                        }
+                      },
+                      [
+                        _c("span", { staticClass: "backlog" }, [
+                          _vm._v(" Register")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "email-container" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "backlog",
+                              staticStyle: { "font-size": "15px" }
+                            },
+                            [_vm._v("Name:")]
+                          ),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.registerName,
+                                expression: "registerName"
+                              }
+                            ],
+                            staticClass: "email",
+                            attrs: {
+                              type: "text",
+                              placeholder: "Your name here"
+                            },
+                            domProps: { value: _vm.registerName },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.registerName = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "email-container" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "backlog",
+                              staticStyle: { "font-size": "15px" }
+                            },
+                            [_vm._v("Email:")]
+                          ),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.registerEmail,
+                                expression: "registerEmail"
+                              }
+                            ],
+                            staticClass: "email",
+                            attrs: {
+                              type: "email",
+                              placeholder: "Your email here"
+                            },
+                            domProps: { value: _vm.registerEmail },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.registerEmail = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "email-container" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "backlog",
+                              staticStyle: { "font-size": "15px" }
+                            },
+                            [_vm._v("Password:")]
+                          ),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.registerPassword,
+                                expression: "registerPassword"
+                              }
+                            ],
+                            staticClass: "password",
+                            attrs: {
+                              type: "password",
+                              placeholder: "Your password here"
+                            },
+                            domProps: { value: _vm.registerPassword },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.registerPassword = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("br"),
+                        _c("br"),
+                        _vm._v(" "),
+                        _vm._m(4)
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", { staticClass: "login-register" })
+              ]),
+              _vm._v(" "),
+              _vm._m(5)
+            ]
+          )
+        ])
+      : _vm._e()
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "marginH3" }, [
+      _c("span", { staticClass: "navTitle" }, [_vm._v("KanTan")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "marginH3" }, [
+      _c(
+        "h2",
+        { staticStyle: { "padding-top": "10%", "font-family": "'itu'" } },
+        [_vm._v("its")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "marginH3" }, [
+      _c("span", { staticClass: "navTitle" }, [_vm._v("KanTan")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c(
+        "span",
+        {
+          staticStyle: {
+            "font-family": "ini",
+            "background-image":
+              "linear-gradient(to right, rgba(255, 220, 23, 0.75),rgba(44, 220, 40,0.4))",
+            "text-align": "center",
+            padding: "5px",
+            "border-radius": "20px"
+          }
+        },
+        [_vm._v("Or, with Google! ")]
+      ),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("div", { attrs: { id: "google-signin-button" } })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("input", {
+        staticClass: "button",
+        attrs: { type: "submit", value: "Sign In" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "imgcontainer", staticStyle: { "text-align": "center" } },
+      [
+        _c(
+          "span",
+          {
+            staticStyle: {
+              "background-color": "white",
+              "padding-left": "10px",
+              "padding-right": "10px",
+              "border-radius": "20px",
+              "font-family": "itz",
+              "font-size": "80px",
+              color: "rgb(70, 135, 165)"
+            }
+          },
+          [_vm._v(" Kantan Kanban")]
+        ),
+        _vm._v(" "),
+        _c("div", [
+          _c("img", {
+            staticStyle: { width: "400px", height: "300px" },
+            attrs: { src: "/Logo.ea73eee6.png" }
+          })
+        ])
+      ]
+    )
+  }
+]
+render._withStripped = true
+
+          return {
+            render: render,
+            staticRenderFns: staticRenderFns,
+            _compiled: true,
+            _scopeId: null,
+            functional: undefined
+          };
+        })());
+      
+    /* hot reload */
+    (function () {
+      if (module.hot) {
+        var api = require('vue-hot-reload-api');
+        api.install(require('vue'));
+        if (api.compatible) {
+          module.hot.accept();
+          if (!module.hot.data) {
+            api.createRecord('$a637b3', $a637b3);
+          } else {
+            api.reload('$a637b3', $a637b3);
+          }
+        }
+
+        
+      }
+    })();
+},{"axios":"../node_modules/axios/index.js","/home/gabrielgv/Desktop/Phase_2/week2/kanban/client/src/style/Logo.png":[["Logo.ea73eee6.png","style/Logo.png"],"style/Logo.png"],"_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"components/edit_modal.vue":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12953,6 +12982,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
 var localhost = 'http://localhost:3000/';
 var _default = {
   components: {
@@ -13108,6 +13138,13 @@ var _default = {
         }
       });
     },
+    googleLogin: function googleLogin() {
+      console.log('masuk login');
+      this.axiosGet();
+      this.token = localStorage.getItem("token");
+      console.log(this.token);
+      this.isLogin = true;
+    },
     toggleModal: function toggleModal() {
       this.showModal = !this.showModal;
     },
@@ -13116,6 +13153,13 @@ var _default = {
       localStorage.removeItem("token");
       this.isLogin = false;
       this.loginPage = true;
+      this.signOut();
+    },
+    signOut: function signOut() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log('User signed out.');
+      });
     },
     axiosRegister: function axiosRegister(loginData) {
       var _this4 = this;
@@ -13198,7 +13242,8 @@ exports.default = _default;
           axiosLogin: _vm.axiosLogin,
           showRegister: _vm.showRegister,
           logout: _vm.logout,
-          axiosRegister: _vm.axiosRegister
+          axiosRegister: _vm.axiosRegister,
+          googleLogin: _vm.googleLogin
         }
       }),
       _vm._v(" "),

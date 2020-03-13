@@ -8,6 +8,7 @@
         @showRegister="showRegister"
         @logout="logout"
         @axiosRegister="axiosRegister"
+        @googleLogin="googleLogin"
         >
         </loginRegister>
         <div class="content"  v-if="isLogin">
@@ -178,6 +179,14 @@ export default {
             })
 
         },
+        googleLogin(){
+                 console.log('masuk login')
+                
+                this.axiosGet()
+                this.token=localStorage.getItem("token")
+                console.log(this.token)
+                this.isLogin=true
+        },
          toggleModal(){
             this.showModal=!this.showModal
         },
@@ -186,7 +195,14 @@ export default {
             localStorage.removeItem("token")
             this.isLogin=false
             this.loginPage=true
+            this.signOut()
         },
+         signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+  },
         axiosRegister(loginData){
             console.log(loginData,'ini masuk ke register dulu')
             axios({

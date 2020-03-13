@@ -9,6 +9,7 @@ const client = new OAuth2Client(process.env.GCLIENT);
 class Controller {
 
     static googleSign(request,response,next){
+        console.log('dapet coy')
         let Gltoken = request.body.token
         let user=null
         client.verifyIdToken({

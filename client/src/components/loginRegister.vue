@@ -51,7 +51,7 @@
                         <div>
                               <span style="font-family: ini; background-image: linear-gradient(to right, rgba(255, 220, 23, 0.75),rgba(44, 220, 40,0.4));; text-align:center; padding:5px;border-radius:20px" >Or, with Google! </span>
                             <br> <br>
-                            <div class="g-signin2" data-onsuccess="onSignIn"></div>  
+                            <div id="google-signin-button"></div> 
                             </div>
                     </form>
                     <!-- END LOGIN FORM -->
@@ -94,8 +94,16 @@
 </template>
 
 <script>
+
+import axios from 'axios'
+const localhost='http://localhost:3000/'
 export default {
     props:['isLogin','loginPage'],
+    mounted() {
+    gapi.signin2.render('google-signin-button', {
+      onsuccess: this.onSignIn
+    })
+  },
     methods:{
         
         submitlogin(){
@@ -114,7 +122,26 @@ export default {
             }
             console.log(data)
             this.$emit("axiosRegister",data)
-        }
+        },
+        onSignIn (user) {
+                  
+                    var id_token = user.getAuthResponse().id_token;
+            console.log(id_token,'masuk sini')
+            axios({
+                method:"POST",
+                url:`${localhost}user/glSign`,
+                data:{token:id_token}
+            })
+            .then(res=>{
+                console.log(res,'ini apa???')
+                localStorage.setItem("token",res.data.token)
+                this.$emit("googleLogin")
+            })
+            .catch(err=>{
+                console.log('masuk error')
+                console.log(err)
+            })
+    },
     },
     data(){
         return{
