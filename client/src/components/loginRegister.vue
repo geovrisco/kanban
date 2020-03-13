@@ -107,6 +107,7 @@ export default {
                 name:this.registerName
             }
             console.log(data)
+            this.$emit("axiosRegister",data)
         }
     },
     data(){

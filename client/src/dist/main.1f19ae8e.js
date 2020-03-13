@@ -8998,6 +8998,7 @@ var _default = {
         name: this.registerName
       };
       console.log(data);
+      this.$emit("axiosRegister", data);
     }
   },
   data: function data() {
@@ -12791,6 +12792,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
 var localhost = 'http://localhost:3000/';
 var _default = {
   components: {
@@ -12835,7 +12837,7 @@ var _default = {
           password: data.password
         }
       }).then(function (data) {
-        console.log(data.data.token);
+        console.log('masuk login');
         localStorage.setItem("token", data.data.token);
 
         _this.axiosGet();
@@ -12912,6 +12914,29 @@ var _default = {
       localStorage.removeItem("token");
       this.isLogin = false;
       this.loginPage = true;
+    },
+    axiosRegister: function axiosRegister(loginData) {
+      var _this4 = this;
+
+      console.log(loginData, 'ini masuk ke register dulu');
+      (0, _axios.default)({
+        method: "POST",
+        url: "".concat(localhost, "user/register"),
+        data: {
+          name: loginData.name,
+          email: loginData.email,
+          password: loginData.password
+        }
+      }).then(function (res) {
+        console.log(res, "ini res");
+        var loginCredential = {
+          email: loginData.email,
+          password: loginData.password
+        };
+        return _this4.axiosLogin(loginCredential);
+      }).catch(function (err) {
+        console.log(err);
+      });
     }
   },
   watch: {}
@@ -12938,7 +12963,8 @@ exports.default = _default;
           showLogin: _vm.showLogin,
           axiosLogin: _vm.axiosLogin,
           showRegister: _vm.showRegister,
-          logout: _vm.logout
+          logout: _vm.logout,
+          axiosRegister: _vm.axiosRegister
         }
       }),
       _vm._v(" "),

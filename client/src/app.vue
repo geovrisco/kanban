@@ -7,6 +7,7 @@
         @axiosLogin="axiosLogin" 
         @showRegister="showRegister"
         @logout="logout"
+        @axiosRegister="axiosRegister"
         >
         </loginRegister>
         <div class="content"  v-if="isLogin">
@@ -78,7 +79,7 @@ export default {
                 }
             })
             .then(data=>{
-                console.log(data.data.token)
+                console.log('masuk login')
                 localStorage.setItem("token",data.data.token)
                 this.axiosGet()
                 this.token=localStorage.getItem("token")
@@ -146,6 +147,30 @@ export default {
             localStorage.removeItem("token")
             this.isLogin=false
             this.loginPage=true
+        },
+        axiosRegister(loginData){
+            console.log(loginData,'ini masuk ke register dulu')
+            axios({
+                method:"POST",
+                url:`${localhost}user/register`,
+                data:{
+                    name:loginData.name,
+                    email:loginData.email,
+                    password:loginData.password
+                }
+            })
+            .then(res=>{
+                console.log(res,"ini res")
+                let loginCredential={
+                    email:loginData.email,
+                    password:loginData.password
+                }
+
+                return this.axiosLogin(loginCredential )
+            })
+            .catch(err=>{
+                console.log(err)
+            })
         }
 
 
