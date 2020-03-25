@@ -11306,7 +11306,287 @@ render._withStripped = true
         
       }
     })();
-},{"axios":"../node_modules/axios/index.js","/home/gabrielgv/Desktop/Phase_2/week2/kanban/client/src/style/Logo.png":[["Logo.ea73eee6.png","style/Logo.png"],"style/Logo.png"],"_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"components/edit_modal.vue":[function(require,module,exports) {
+},{"axios":"../node_modules/axios/index.js","/home/gabrielgv/Desktop/Phase_2/week2/kanban/client/src/style/Logo.png":[["Logo.ea73eee6.png","style/Logo.png"],"style/Logo.png"],"_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"components/modal.vue":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var _default = {
+  props: ['showModal'],
+  data: function data() {
+    return {
+      description: '',
+      category: ''
+    };
+  },
+  methods: {
+    createKanban: function createKanban() {
+      console.log('masuk kanban');
+      var data = {
+        description: this.description,
+        category: this.category
+      };
+      this.$emit("axiosCreate", data);
+      this.description = '';
+      this.category = '';
+      this.$emit('toggleModal');
+    }
+  }
+};
+exports.default = _default;
+        var $9300a7 = exports.default || module.exports;
+      
+      if (typeof $9300a7 === 'function') {
+        $9300a7 = $9300a7.options;
+      }
+    
+        /* template */
+        Object.assign($9300a7, (function () {
+          var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("transition", { attrs: { name: "fade", appear: "" } }, [
+        _vm.showModal
+          ? _c("div", {
+              staticClass: "modal-overlay",
+              on: {
+                click: function($event) {
+                  return _vm.$emit("toggleModal")
+                }
+              }
+            })
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("transition", { attrs: { name: "slide", appear: "" } }, [
+        _vm.showModal
+          ? _c("div", { staticClass: "modal" }, [
+              _c("h1", {}, [_vm._v("Add something kantan!")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-modal" }, [
+                _c("form", [
+                  _c("div", { staticClass: "email-container" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "backlog",
+                        staticStyle: { "font-size": "15px" }
+                      },
+                      [_vm._v("Description:")]
+                    ),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.description,
+                          expression: "description"
+                        }
+                      ],
+                      staticClass: "kanbanDesc",
+                      attrs: {
+                        type: "text",
+                        placeholder: "e.g. Doing something"
+                      },
+                      domProps: { value: _vm.description },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.description = $event.target.value
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticStyle: {
+                        display: "flex",
+                        "justify-content": "center",
+                        "margin-bottom": "3%"
+                      }
+                    },
+                    [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.category,
+                              expression: "category"
+                            }
+                          ],
+                          staticClass: "select-opt",
+                          attrs: { id: "Category" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.category = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { disabled: "", value: "" } }, [
+                            _vm._v(" Select Category ")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "backlog" } }, [
+                            _vm._v("backlog")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "product" } }, [
+                            _vm._v("product")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "development" } }, [
+                            _vm._v("development")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "done" } }, [
+                            _vm._v("done")
+                          ])
+                        ]
+                      )
+                    ]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-modal" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "buttonModalBlue",
+                    on: { click: _vm.createKanban }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    New Kanban!\n                "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "buttonModalRed",
+                    on: {
+                      click: function($event) {
+                        return _vm.$emit("toggleModal")
+                      }
+                    }
+                  },
+                  [_vm._v("\n                    Cancel\n                ")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("br"),
+              _c("br")
+            ])
+          : _vm._e()
+      ])
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+          return {
+            render: render,
+            staticRenderFns: staticRenderFns,
+            _compiled: true,
+            _scopeId: null,
+            functional: undefined
+          };
+        })());
+      
+    /* hot reload */
+    (function () {
+      if (module.hot) {
+        var api = require('vue-hot-reload-api');
+        api.install(require('vue'));
+        if (api.compatible) {
+          module.hot.accept();
+          if (!module.hot.data) {
+            api.createRecord('$9300a7', $9300a7);
+          } else {
+            api.reload('$9300a7', $9300a7);
+          }
+        }
+
+        
+      }
+    })();
+},{"_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"components/edit_modal.vue":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11630,7 +11910,7 @@ render._withStripped = true
         
       }
     })();
-},{"_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"components/backlog.vue":[function(require,module,exports) {
+},{"_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"components/task.vue":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11638,9 +11918,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _axios = _interopRequireDefault(require("axios"));
-
 var _edit_modal = _interopRequireDefault(require("./edit_modal"));
+
+var _axios = _interopRequireDefault(require("axios"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11656,29 +11936,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var localhost = 'http://localhost:3000/';
 var _default = {
-  props: ['maindata'],
+  props: ['data'],
   components: {
     editmodal: _edit_modal.default
-  },
-  computed: {
-    backlogData: function backlogData() {
-      return this.maindata.filter(function (filter) {
-        return filter.category == "backlog";
-      });
-    }
   },
   methods: {
     deleteData: function deleteData(id) {
@@ -11714,267 +11976,6 @@ var _default = {
         result.dismiss === Swal.DismissReason.cancel) {
           Swal.fire('Cancelled', 'Take a rest if you click the button by mistake >.<', 'error');
         }
-      }); //delete this in case shit happen 
-      // axios({
-      //     method:'DELETE',
-      //     url:`${localhost}task/${id}`,
-      //     headers:{"token":localStorage.getItem("token")}
-      // }).then(data=>{
-      // console.log(id)
-      //     this.$emit(`axiosGet`,id)
-      // }).catch(err=>{
-      //     console.log(err)
-      // })
-    },
-    updateTrigger: function updateTrigger(id, description, category) {
-      // alert(` ini pencetan ${id}`)
-      this.dataEdit = {
-        id: id,
-        description: description,
-        category: category
-      };
-      this.showModal = true;
-      console.log(this.dataEdit, 'siap oper bouusss');
-    },
-    toggleModal: function toggleModal() {
-      this.showModal = !this.showModal;
-    },
-    axiosPut: function axiosPut(updateData) {
-      var _this2 = this;
-
-      console.log(updateData, "ini update data");
-      console.log('masuk update data');
-      (0, _axios.default)({
-        url: "".concat(localhost, "task/").concat(updateData.id),
-        method: 'PUT',
-        headers: {
-          "token": localStorage.getItem("token")
-        },
-        data: {
-          description: updateData.description,
-          category: updateData.category
-        }
-      }).then(function (res) {
-        // console.log(res)
-        console.log("sukses update data");
-
-        _this2.toggleModal();
-
-        _this2.$emit("axiosGet");
-      }).catch(function (err) {
-        console.log(err);
-        Swal.fire({
-          title: 'Error!',
-          html: "Please Fill the Description",
-          icon: 'error',
-          confirmButtonText: 'Ok'
-        });
-      });
-    }
-  },
-  data: function data() {
-    return {
-      showModal: false,
-      dataEdit: null
-    };
-  }
-};
-exports.default = _default;
-        var $280044 = exports.default || module.exports;
-      
-      if (typeof $280044 === 'function') {
-        $280044 = $280044.options;
-      }
-    
-        /* template */
-        Object.assign($280044, (function () {
-          var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "anakolom" },
-    [
-      _c("div", { staticClass: "container-backlog" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "ini" },
-          _vm._l(_vm.backlogData, function(i) {
-            return _c("div", { key: i.id, staticClass: "isi" }, [
-              _c("div", { staticClass: "pContent" }, [
-                _c("span", [_vm._v(" " + _vm._s(i.description))]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticStyle: {
-                      display: "flex",
-                      "justify-content": "flex-end"
-                    }
-                  },
-                  [
-                    _c("img", {
-                      staticClass: "toggleImg",
-                      attrs: { src: "/zoom-in.0c4eb103.png" },
-                      on: {
-                        click: function($event) {
-                          return _vm.updateTrigger(
-                            i.id,
-                            "" + i.description,
-                            "" + i.category
-                          )
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("img", {
-                      staticClass: "toggleImg",
-                      attrs: { src: "/garbage-1.a0cb94e2.png" },
-                      on: {
-                        click: function($event) {
-                          return _vm.deleteData("" + i.id)
-                        }
-                      }
-                    })
-                  ]
-                )
-              ])
-            ])
-          }),
-          0
-        )
-      ]),
-      _vm._v(" "),
-      _c("editmodal", {
-        attrs: { showModal: _vm.showModal, dataEdit: _vm.dataEdit },
-        on: { toggleModal: _vm.toggleModal, axiosPut: _vm.axiosPut }
-      })
-    ],
-    1
-  )
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("p", { staticClass: "backlog" }, [_vm._v("BackLog")])])
-  }
-]
-render._withStripped = true
-
-          return {
-            render: render,
-            staticRenderFns: staticRenderFns,
-            _compiled: true,
-            _scopeId: null,
-            functional: undefined
-          };
-        })());
-      
-    /* hot reload */
-    (function () {
-      if (module.hot) {
-        var api = require('vue-hot-reload-api');
-        api.install(require('vue'));
-        if (api.compatible) {
-          module.hot.accept();
-          if (!module.hot.data) {
-            api.createRecord('$280044', $280044);
-          } else {
-            api.reload('$280044', $280044);
-          }
-        }
-
-        
-      }
-    })();
-},{"axios":"../node_modules/axios/index.js","./edit_modal":"components/edit_modal.vue","./../style/png/zoom-in.png":[["zoom-in.0c4eb103.png","style/png/zoom-in.png"],"style/png/zoom-in.png"],"./../style/png/garbage-1.png":[["garbage-1.a0cb94e2.png","style/png/garbage-1.png"],"style/png/garbage-1.png"],"_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"components/product.vue":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _axios = _interopRequireDefault(require("axios"));
-
-var _edit_modal = _interopRequireDefault(require("./edit_modal"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var localhost = 'http://localhost:3000/';
-var _default = {
-  props: ['maindata'],
-  components: {
-    editmodal: _edit_modal.default
-  },
-  computed: {
-    productData: function productData() {
-      return this.maindata.filter(function (filter) {
-        return filter.category == "product";
-      });
-    }
-  },
-  methods: {
-    deleteData: function deleteData(id) {
-      var _this = this;
-
-      Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel!',
-        reverseButtons: true
-      }).then(function (result) {
-        if (result.value) {
-          (0, _axios.default)({
-            method: 'DELETE',
-            url: "".concat(localhost, "task/").concat(id),
-            headers: {
-              "token": localStorage.getItem("token")
-            }
-          }).then(function (data) {
-            console.log(id);
-
-            _this.$emit("axiosGet", id);
-          }).catch(function (err) {
-            console.log(err);
-          });
-          Swal.fire('Kanban Deleted!', 'Sweet, now lets do another task.', 'success');
-        } else if (
-        /* Read more about handling dismissals below */
-        result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire('Cancelled', 'Take a rest if you click the button by mistake >.<', 'error');
-        }
       });
     },
     updateTrigger: function updateTrigger(id, description, category) {
@@ -12031,871 +12032,60 @@ var _default = {
   }
 };
 exports.default = _default;
-        var $5ef769 = exports.default || module.exports;
+        var $c35b54 = exports.default || module.exports;
       
-      if (typeof $5ef769 === 'function') {
-        $5ef769 = $5ef769.options;
+      if (typeof $c35b54 === 'function') {
+        $c35b54 = $c35b54.options;
       }
     
         /* template */
-        Object.assign($5ef769, (function () {
+        Object.assign($c35b54, (function () {
           var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "anakolom" },
+    { staticClass: "isi" },
     [
-      _c("div", { staticClass: "container-product" }, [
-        _vm._m(0),
+      _c("div", { staticClass: "pContent" }, [
+        _c("span", [_vm._v(" " + _vm._s(_vm.data.description))]),
         _vm._v(" "),
         _c(
           "div",
-          { staticClass: "ini" },
-          _vm._l(_vm.productData, function(i) {
-            return _c("div", { key: i.id, staticClass: "isi" }, [
-              _c("div", { staticClass: "pContent" }, [
-                _c("span", [_vm._v(" " + _vm._s(i.description))]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticStyle: {
-                      display: "flex",
-                      "justify-content": "flex-end"
-                    }
-                  },
-                  [
-                    _c("img", {
-                      staticClass: "toggleImg",
-                      attrs: { src: "/zoom-in.0c4eb103.png" },
-                      on: {
-                        click: function($event) {
-                          return _vm.updateTrigger(
-                            i.id,
-                            "" + i.description,
-                            "" + i.category
-                          )
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("img", {
-                      staticClass: "toggleImg",
-                      attrs: { src: "/garbage-1.a0cb94e2.png" },
-                      on: {
-                        click: function($event) {
-                          return _vm.deleteData("" + i.id)
-                        }
-                      }
-                    })
-                  ]
-                )
-              ])
-            ])
-          }),
-          0
-        )
-      ]),
-      _vm._v(" "),
-      _c("editmodal", {
-        attrs: { showModal: _vm.showModal, dataEdit: _vm.dataEdit },
-        on: { toggleModal: _vm.toggleModal, axiosPut: _vm.axiosPut }
-      })
-    ],
-    1
-  )
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("p", { staticClass: "backlog" }, [_vm._v("Product")])])
-  }
-]
-render._withStripped = true
-
-          return {
-            render: render,
-            staticRenderFns: staticRenderFns,
-            _compiled: true,
-            _scopeId: null,
-            functional: undefined
-          };
-        })());
-      
-    /* hot reload */
-    (function () {
-      if (module.hot) {
-        var api = require('vue-hot-reload-api');
-        api.install(require('vue'));
-        if (api.compatible) {
-          module.hot.accept();
-          if (!module.hot.data) {
-            api.createRecord('$5ef769', $5ef769);
-          } else {
-            api.reload('$5ef769', $5ef769);
-          }
-        }
-
-        
-      }
-    })();
-},{"axios":"../node_modules/axios/index.js","./edit_modal":"components/edit_modal.vue","./../style/png/zoom-in.png":[["zoom-in.0c4eb103.png","style/png/zoom-in.png"],"style/png/zoom-in.png"],"./../style/png/garbage-1.png":[["garbage-1.a0cb94e2.png","style/png/garbage-1.png"],"style/png/garbage-1.png"],"_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"components/development.vue":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _axios = _interopRequireDefault(require("axios"));
-
-var _edit_modal = _interopRequireDefault(require("./edit_modal"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var localhost = 'http://localhost:3000/';
-var _default = {
-  props: ['maindata'],
-  components: {
-    editmodal: _edit_modal.default
-  },
-  computed: {
-    developmentData: function developmentData() {
-      return this.maindata.filter(function (filter) {
-        return filter.category == "development";
-      });
-    }
-  },
-  methods: {
-    deleteData: function deleteData(id) {
-      var _this = this;
-
-      Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel!',
-        reverseButtons: true
-      }).then(function (result) {
-        if (result.value) {
-          (0, _axios.default)({
-            method: 'DELETE',
-            url: "".concat(localhost, "task/").concat(id),
-            headers: {
-              "token": localStorage.getItem("token")
-            }
-          }).then(function (data) {
-            console.log(id);
-
-            _this.$emit("axiosGet", id);
-          }).catch(function (err) {
-            console.log(err);
-          });
-          Swal.fire('Kanban Deleted!', 'Sweet, now lets do another task.', 'success');
-        } else if (
-        /* Read more about handling dismissals below */
-        result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire('Cancelled', 'Take a rest if you click the button by mistake >.<', 'error');
-        }
-      });
-    },
-    updateTrigger: function updateTrigger(id, description, category) {
-      // alert(` ini pencetan ${id}`)
-      this.dataEdit = {
-        id: id,
-        description: description,
-        category: category
-      };
-      this.showModal = true;
-      console.log(this.dataEdit, 'siap oper bouusss');
-    },
-    toggleModal: function toggleModal() {
-      this.showModal = !this.showModal;
-    },
-    axiosPut: function axiosPut(updateData) {
-      var _this2 = this;
-
-      console.log(updateData, "ini update data");
-      console.log('masuk update data');
-      (0, _axios.default)({
-        url: "".concat(localhost, "task/").concat(updateData.id),
-        method: 'PUT',
-        headers: {
-          "token": localStorage.getItem("token")
-        },
-        data: {
-          description: updateData.description,
-          category: updateData.category
-        }
-      }).then(function (res) {
-        // console.log(res)
-        console.log("sukses update data");
-
-        _this2.toggleModal();
-
-        _this2.$emit("axiosGet");
-      }).catch(function (err) {
-        console.log(err);
-        Swal.fire({
-          title: 'Error!',
-          html: "Please Fill the Description",
-          icon: 'error',
-          confirmButtonText: 'Ok'
-        });
-      });
-    }
-  },
-  data: function data() {
-    return {
-      showModal: false,
-      dataEdit: null
-    };
-  }
-};
-exports.default = _default;
-        var $9a7795 = exports.default || module.exports;
-      
-      if (typeof $9a7795 === 'function') {
-        $9a7795 = $9a7795.options;
-      }
-    
-        /* template */
-        Object.assign($9a7795, (function () {
-          var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "anakolom" },
-    [
-      _c("div", { staticClass: "container-development" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "ini" },
-          _vm._l(_vm.developmentData, function(i) {
-            return _c("div", { key: i.id, staticClass: "isi" }, [
-              _c("div", { staticClass: "pContent" }, [
-                _c("span", [_vm._v(" " + _vm._s(i.description))]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticStyle: {
-                      display: "flex",
-                      "justify-content": "flex-end"
-                    }
-                  },
-                  [
-                    _c("img", {
-                      staticClass: "toggleImg",
-                      attrs: { src: "/zoom-in.0c4eb103.png" },
-                      on: {
-                        click: function($event) {
-                          return _vm.updateTrigger(
-                            i.id,
-                            "" + i.description,
-                            "" + i.category
-                          )
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("img", {
-                      staticClass: "toggleImg",
-                      attrs: { src: "/garbage-1.a0cb94e2.png" },
-                      on: {
-                        click: function($event) {
-                          return _vm.deleteData("" + i.id)
-                        }
-                      }
-                    })
-                  ]
-                )
-              ])
-            ])
-          }),
-          0
-        )
-      ]),
-      _vm._v(" "),
-      _c("editmodal", {
-        attrs: { showModal: _vm.showModal, dataEdit: _vm.dataEdit },
-        on: { toggleModal: _vm.toggleModal, axiosPut: _vm.axiosPut }
-      })
-    ],
-    1
-  )
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("p", { staticClass: "backlog" }, [_vm._v("Development")])
-    ])
-  }
-]
-render._withStripped = true
-
-          return {
-            render: render,
-            staticRenderFns: staticRenderFns,
-            _compiled: true,
-            _scopeId: null,
-            functional: undefined
-          };
-        })());
-      
-    /* hot reload */
-    (function () {
-      if (module.hot) {
-        var api = require('vue-hot-reload-api');
-        api.install(require('vue'));
-        if (api.compatible) {
-          module.hot.accept();
-          if (!module.hot.data) {
-            api.createRecord('$9a7795', $9a7795);
-          } else {
-            api.reload('$9a7795', $9a7795);
-          }
-        }
-
-        
-      }
-    })();
-},{"axios":"../node_modules/axios/index.js","./edit_modal":"components/edit_modal.vue","./../style/png/zoom-in.png":[["zoom-in.0c4eb103.png","style/png/zoom-in.png"],"style/png/zoom-in.png"],"./../style/png/garbage-1.png":[["garbage-1.a0cb94e2.png","style/png/garbage-1.png"],"style/png/garbage-1.png"],"_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"components/done.vue":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _axios = _interopRequireDefault(require("axios"));
-
-var _edit_modal = _interopRequireDefault(require("./edit_modal"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var localhost = 'http://localhost:3000/';
-var _default = {
-  props: ['maindata'],
-  components: {
-    editmodal: _edit_modal.default
-  },
-  computed: {
-    doneData: function doneData() {
-      return this.maindata.filter(function (filter) {
-        return filter.category == "done";
-      });
-    }
-  },
-  methods: {
-    deleteData: function deleteData(id) {
-      var _this = this;
-
-      Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel!',
-        reverseButtons: true
-      }).then(function (result) {
-        if (result.value) {
-          (0, _axios.default)({
-            method: 'DELETE',
-            url: "".concat(localhost, "task/").concat(id),
-            headers: {
-              "token": localStorage.getItem("token")
-            }
-          }).then(function (data) {
-            console.log(id);
-
-            _this.$emit("axiosGet", id);
-          }).catch(function (err) {
-            console.log(err);
-          });
-          Swal.fire('Kanban Deleted!', 'Sweet, now lets do another task.', 'success');
-        } else if (
-        /* Read more about handling dismissals below */
-        result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire('Cancelled', 'Take a rest if you click the button by mistake >.<', 'error');
-        }
-      });
-    },
-    updateTrigger: function updateTrigger(id, description, category) {
-      // alert(` ini pencetan ${id}`)
-      this.dataEdit = {
-        id: id,
-        description: description,
-        category: category
-      };
-      this.showModal = true;
-      console.log(this.dataEdit, 'siap oper bouusss');
-    },
-    toggleModal: function toggleModal() {
-      this.showModal = !this.showModal;
-    },
-    axiosPut: function axiosPut(updateData) {
-      var _this2 = this;
-
-      console.log(updateData, "ini update data");
-      console.log('masuk update data');
-      (0, _axios.default)({
-        url: "".concat(localhost, "task/").concat(updateData.id),
-        method: 'PUT',
-        headers: {
-          "token": localStorage.getItem("token")
-        },
-        data: {
-          description: updateData.description,
-          category: updateData.category
-        }
-      }).then(function (res) {
-        // console.log(res)
-        console.log("sukses update data");
-
-        _this2.toggleModal();
-
-        _this2.$emit("axiosGet");
-      }).catch(function (err) {
-        Swal.fire({
-          title: 'Error!',
-          html: "Please Fill the Description",
-          icon: 'error',
-          confirmButtonText: 'Ok'
-        });
-        console.log(err);
-      });
-    }
-  },
-  data: function data() {
-    return {
-      showModal: false,
-      dataEdit: null
-    };
-  }
-};
-exports.default = _default;
-        var $322b72 = exports.default || module.exports;
-      
-      if (typeof $322b72 === 'function') {
-        $322b72 = $322b72.options;
-      }
-    
-        /* template */
-        Object.assign($322b72, (function () {
-          var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "anakolom" },
-    [
-      _c("div", { staticClass: "container-done" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "ini" },
-          _vm._l(_vm.doneData, function(i) {
-            return _c("div", { key: i.id, staticClass: "isi" }, [
-              _c("div", { staticClass: "pContent" }, [
-                _c("span", [_vm._v(" " + _vm._s(i.description))]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticStyle: {
-                      display: "flex",
-                      "justify-content": "flex-end"
-                    }
-                  },
-                  [
-                    _c("img", {
-                      staticClass: "toggleImg",
-                      attrs: { src: "/zoom-in.0c4eb103.png" },
-                      on: {
-                        click: function($event) {
-                          return _vm.updateTrigger(
-                            i.id,
-                            "" + i.description,
-                            "" + i.category
-                          )
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("img", {
-                      staticClass: "toggleImg",
-                      attrs: { src: "/garbage-1.a0cb94e2.png" },
-                      on: {
-                        click: function($event) {
-                          return _vm.deleteData("" + i.id)
-                        }
-                      }
-                    })
-                  ]
-                )
-              ])
-            ])
-          }),
-          0
-        )
-      ]),
-      _vm._v(" "),
-      _c("editmodal", {
-        attrs: { showModal: _vm.showModal, dataEdit: _vm.dataEdit },
-        on: { toggleModal: _vm.toggleModal, axiosPut: _vm.axiosPut }
-      })
-    ],
-    1
-  )
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("p", { staticClass: "backlog" }, [_vm._v("Done")])])
-  }
-]
-render._withStripped = true
-
-          return {
-            render: render,
-            staticRenderFns: staticRenderFns,
-            _compiled: true,
-            _scopeId: null,
-            functional: undefined
-          };
-        })());
-      
-    /* hot reload */
-    (function () {
-      if (module.hot) {
-        var api = require('vue-hot-reload-api');
-        api.install(require('vue'));
-        if (api.compatible) {
-          module.hot.accept();
-          if (!module.hot.data) {
-            api.createRecord('$322b72', $322b72);
-          } else {
-            api.reload('$322b72', $322b72);
-          }
-        }
-
-        
-      }
-    })();
-},{"axios":"../node_modules/axios/index.js","./edit_modal":"components/edit_modal.vue","./../style/png/zoom-in.png":[["zoom-in.0c4eb103.png","style/png/zoom-in.png"],"style/png/zoom-in.png"],"./../style/png/garbage-1.png":[["garbage-1.a0cb94e2.png","style/png/garbage-1.png"],"style/png/garbage-1.png"],"_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"components/modal.vue":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default = {
-  props: ['showModal'],
-  data: function data() {
-    return {
-      description: '',
-      category: ''
-    };
-  },
-  methods: {
-    createKanban: function createKanban() {
-      console.log('masuk kanban');
-      var data = {
-        description: this.description,
-        category: this.category
-      };
-      this.$emit("axiosCreate", data);
-      this.description = '';
-      this.category = '';
-      this.$emit('toggleModal');
-    }
-  }
-};
-exports.default = _default;
-        var $9300a7 = exports.default || module.exports;
-      
-      if (typeof $9300a7 === 'function') {
-        $9300a7 = $9300a7.options;
-      }
-    
-        /* template */
-        Object.assign($9300a7, (function () {
-          var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("transition", { attrs: { name: "fade", appear: "" } }, [
-        _vm.showModal
-          ? _c("div", {
-              staticClass: "modal-overlay",
+          { staticStyle: { display: "flex", "justify-content": "flex-end" } },
+          [
+            _c("img", {
+              staticClass: "toggleImg",
+              attrs: { src: "/zoom-in.0c4eb103.png" },
               on: {
                 click: function($event) {
-                  return _vm.$emit("toggleModal")
+                  return _vm.updateTrigger(
+                    _vm.data.id,
+                    "" + _vm.data.description,
+                    "" + _vm.data.category
+                  )
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("img", {
+              staticClass: "toggleImg",
+              attrs: { src: "/garbage-1.a0cb94e2.png" },
+              on: {
+                click: function($event) {
+                  return _vm.deleteData("" + _vm.data.id)
                 }
               }
             })
-          : _vm._e()
+          ]
+        )
       ]),
       _vm._v(" "),
-      _c("transition", { attrs: { name: "slide", appear: "" } }, [
-        _vm.showModal
-          ? _c("div", { staticClass: "modal" }, [
-              _c("h1", {}, [_vm._v("Add something kantan!")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-modal" }, [
-                _c("form", [
-                  _c("div", { staticClass: "email-container" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass: "backlog",
-                        staticStyle: { "font-size": "15px" }
-                      },
-                      [_vm._v("Description:")]
-                    ),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c("textarea", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.description,
-                          expression: "description"
-                        }
-                      ],
-                      staticClass: "kanbanDesc",
-                      attrs: {
-                        type: "text",
-                        placeholder: "e.g. Doing something"
-                      },
-                      domProps: { value: _vm.description },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.description = $event.target.value
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticStyle: {
-                        display: "flex",
-                        "justify-content": "center",
-                        "margin-bottom": "3%"
-                      }
-                    },
-                    [
-                      _c(
-                        "select",
-                        {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.category,
-                              expression: "category"
-                            }
-                          ],
-                          staticClass: "select-opt",
-                          attrs: { id: "Category" },
-                          on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.category = $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            }
-                          }
-                        },
-                        [
-                          _c("option", { attrs: { disabled: "", value: "" } }, [
-                            _vm._v(" Select Category ")
-                          ]),
-                          _vm._v(" "),
-                          _c("option", { attrs: { value: "backlog" } }, [
-                            _vm._v("backlog")
-                          ]),
-                          _vm._v(" "),
-                          _c("option", { attrs: { value: "product" } }, [
-                            _vm._v("product")
-                          ]),
-                          _vm._v(" "),
-                          _c("option", { attrs: { value: "development" } }, [
-                            _vm._v("development")
-                          ]),
-                          _vm._v(" "),
-                          _c("option", { attrs: { value: "done" } }, [
-                            _vm._v("done")
-                          ])
-                        ]
-                      )
-                    ]
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-modal" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "buttonModalBlue",
-                    on: { click: _vm.createKanban }
-                  },
-                  [
-                    _vm._v(
-                      "\n                    New Kanban!\n                "
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "buttonModalRed",
-                    on: {
-                      click: function($event) {
-                        return _vm.$emit("toggleModal")
-                      }
-                    }
-                  },
-                  [_vm._v("\n                    Cancel\n                ")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("br"),
-              _c("br")
-            ])
-          : _vm._e()
-      ])
+      _c("editmodal", {
+        attrs: { showModal: _vm.showModal, dataEdit: _vm.dataEdit },
+        on: { toggleModal: _vm.toggleModal, axiosPut: _vm.axiosPut }
+      })
     ],
     1
   )
@@ -12920,16 +12110,144 @@ render._withStripped = true
         if (api.compatible) {
           module.hot.accept();
           if (!module.hot.data) {
-            api.createRecord('$9300a7', $9300a7);
+            api.createRecord('$c35b54', $c35b54);
           } else {
-            api.reload('$9300a7', $9300a7);
+            api.reload('$c35b54', $c35b54);
           }
         }
 
         
       }
     })();
-},{"_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"app.vue":[function(require,module,exports) {
+},{"./edit_modal":"components/edit_modal.vue","axios":"../node_modules/axios/index.js","./../style/png/zoom-in.png":[["zoom-in.0c4eb103.png","style/png/zoom-in.png"],"style/png/zoom-in.png"],"./../style/png/garbage-1.png":[["garbage-1.a0cb94e2.png","style/png/garbage-1.png"],"style/png/garbage-1.png"],"_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"components/category.vue":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _axios = _interopRequireDefault(require("axios"));
+
+var _edit_modal = _interopRequireDefault(require("./edit_modal"));
+
+var _task = _interopRequireDefault(require("./task"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var localhost = 'http://localhost:3000/';
+var _default = {
+  props: ['data'],
+  components: {
+    editmodal: _edit_modal.default,
+    Task: _task.default
+  }
+};
+exports.default = _default;
+        var $69ec29 = exports.default || module.exports;
+      
+      if (typeof $69ec29 === 'function') {
+        $69ec29 = $69ec29.options;
+      }
+    
+        /* template */
+        Object.assign($69ec29, (function () {
+          var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "anakolom2" },
+    _vm._l(_vm.data, function(dat, i) {
+      return _c(
+        "div",
+        { key: i, staticClass: "anakolom" },
+        [
+          _c("div", { class: dat.class }, [
+            _c("div", [
+              _c("p", { staticClass: "backlog" }, [_vm._v(_vm._s(dat.name))])
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "ini" },
+              _vm._l(dat.data, function(data, i) {
+                return _c("Task", { key: i, attrs: { data: data } })
+              }),
+              1
+            )
+          ]),
+          _vm._v(" "),
+          _c("editmodal", {
+            attrs: { showModal: _vm.showModal, dataEdit: _vm.dataEdit },
+            on: { toggleModal: _vm.toggleModal, axiosPut: _vm.axiosPut }
+          })
+        ],
+        1
+      )
+    }),
+    0
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+          return {
+            render: render,
+            staticRenderFns: staticRenderFns,
+            _compiled: true,
+            _scopeId: null,
+            functional: undefined
+          };
+        })());
+      
+    /* hot reload */
+    (function () {
+      if (module.hot) {
+        var api = require('vue-hot-reload-api');
+        api.install(require('vue'));
+        if (api.compatible) {
+          module.hot.accept();
+          if (!module.hot.data) {
+            api.createRecord('$69ec29', $69ec29);
+          } else {
+            api.reload('$69ec29', $69ec29);
+          }
+        }
+
+        
+      }
+    })();
+},{"axios":"../node_modules/axios/index.js","./edit_modal":"components/edit_modal.vue","./task":"components/task.vue","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"app.vue":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12941,21 +12259,12 @@ var _loginRegister = _interopRequireDefault(require("./components/loginRegister"
 
 var _axios = _interopRequireDefault(require("axios"));
 
-var _backlog = _interopRequireDefault(require("./components/backlog"));
-
-var _product = _interopRequireDefault(require("./components/product"));
-
-var _development = _interopRequireDefault(require("./components/development"));
-
-var _done = _interopRequireDefault(require("./components/done"));
-
 var _modal = _interopRequireDefault(require("./components/modal"));
+
+var _category = _interopRequireDefault(require("./components/category"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//
-//
-//
 //
 //
 //
@@ -12987,11 +12296,53 @@ var localhost = 'http://localhost:3000/';
 var _default = {
   components: {
     loginRegister: _loginRegister.default,
-    backlog: _backlog.default,
-    product: _product.default,
-    development: _development.default,
-    done: _done.default,
-    modal: _modal.default
+    category: _category.default
+  },
+  computed: {
+    alldata: function alldata() {
+      return {
+        backlog: {
+          data: this.backlogData,
+          name: 'Backlog',
+          class: 'container-backlog'
+        },
+        development: {
+          data: this.developmentData,
+          name: 'Development',
+          class: 'container-development'
+        },
+        done: {
+          data: this.doneData,
+          name: 'Done',
+          class: 'container-done'
+        },
+        product: {
+          data: this.productData,
+          name: 'Product',
+          class: 'container-product'
+        }
+      };
+    },
+    backlogData: function backlogData() {
+      return this.maindata.filter(function (filter) {
+        return filter.category == "backlog";
+      });
+    },
+    developmentData: function developmentData() {
+      return this.maindata.filter(function (filter) {
+        return filter.category == "development";
+      });
+    },
+    doneData: function doneData() {
+      return this.maindata.filter(function (filter) {
+        return filter.category == "done";
+      });
+    },
+    productData: function productData() {
+      return this.maindata.filter(function (filter) {
+        return filter.category == "product";
+      });
+    }
   },
   data: function data() {
     return {
@@ -13086,8 +12437,7 @@ var _default = {
       }).then(function (data) {
         data.data.forEach(function (ele) {
           _this2.maindata.push(ele);
-        });
-        console.log(_this2.maindata);
+        }); // console.log(this.maindata)
       });
     },
     deleteThisArray: function deleteThisArray(id) {
@@ -13252,25 +12602,7 @@ exports.default = _default;
             "div",
             { staticClass: "content" },
             [
-              _c("backlog", {
-                attrs: { maindata: _vm.maindata },
-                on: { axiosGet: _vm.axiosGet }
-              }),
-              _vm._v(" "),
-              _c("product", {
-                attrs: { maindata: _vm.maindata },
-                on: { axiosGet: _vm.axiosGet }
-              }),
-              _vm._v(" "),
-              _c("development", {
-                attrs: { maindata: _vm.maindata },
-                on: { axiosGet: _vm.axiosGet }
-              }),
-              _vm._v(" "),
-              _c("done", {
-                attrs: { maindata: _vm.maindata },
-                on: { axiosGet: _vm.axiosGet }
-              }),
+              _c("category", { attrs: { data: _vm.alldata } }),
               _vm._v(" "),
               _c("modal", {
                 attrs: { showModal: _vm.showModal },
@@ -13278,25 +12610,23 @@ exports.default = _default;
                   toggleModal: _vm.toggleModal,
                   axiosCreate: _vm.axiosCreate
                 }
-              }),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticStyle: { display: "flex", "justify-content": "center" }
-                },
-                [
-                  _c(
-                    "button",
-                    { staticClass: "button", on: { click: _vm.toggleModal } },
-                    [_vm._v("\n       Add Data\n       ")]
-                  )
-                ]
-              )
+              })
             ],
             1
           )
-        : _vm._e()
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticStyle: { display: "flex", "justify-content": "center" } },
+        [
+          _c(
+            "button",
+            { staticClass: "button", on: { click: _vm.toggleModal } },
+            [_vm._v("\n       Add Data\n       ")]
+          )
+        ]
+      )
     ],
     1
   )
@@ -13330,7 +12660,7 @@ render._withStripped = true
         
       }
     })();
-},{"./components/loginRegister":"components/loginRegister.vue","axios":"../node_modules/axios/index.js","./components/backlog":"components/backlog.vue","./components/product":"components/product.vue","./components/development":"components/development.vue","./components/done":"components/done.vue","./components/modal":"components/modal.vue","_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"main.js":[function(require,module,exports) {
+},{"./components/loginRegister":"components/loginRegister.vue","axios":"../node_modules/axios/index.js","./components/modal":"components/modal.vue","./components/category":"components/category.vue","_css_loader":"../../../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.runtime.esm.js"}],"main.js":[function(require,module,exports) {
 "use strict";
 
 var _vue = _interopRequireDefault(require("vue"));
@@ -13372,7 +12702,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34425" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "40553" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

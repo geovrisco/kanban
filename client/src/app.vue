@@ -12,17 +12,14 @@
         >
         </loginRegister>
         <div class="content"  v-if="isLogin">
-            <backlog :maindata="maindata"  @axiosGet="axiosGet" ></backlog>
-            <product :maindata="maindata" @axiosGet="axiosGet"> </product>
-            <development :maindata="maindata" @axiosGet="axiosGet" > </development>
-            <done :maindata="maindata" @axiosGet="axiosGet" > </done>
+        <category :data="alldata"> </category>
         <modal :showModal="showModal" @toggleModal="toggleModal" @axiosCreate="axiosCreate" ></modal >
 
+        </div>
         <div style="display:flex; justify-content:center">
             <button class="button" @click="toggleModal" >
            Add Data
            </button>
-        </div>
         </div>
 
     </div>
@@ -32,22 +29,55 @@
 import loginRegister from './components/loginRegister'
 const localhost='http://localhost:3000/'
 import axios from 'axios'
-import backlog from './components/backlog'
-import product from './components/product'
-import development from './components/development'
-import done from './components/done'
 import modal from './components/modal'
+import category from './components/category'
 
 export default {
     components:{
         loginRegister,
-        backlog,
-        product,
-        development,
-        done,
-        modal
+        category
         
     },
+    computed: {
+        alldata(){
+          return {
+            backlog:{
+              data:this.backlogData,
+              name:'Backlog',
+              class:'container-backlog'
+              },
+            development:{
+              data:this.developmentData,
+              name:'Development',
+              class:'container-development'
+              
+            },
+            done:{
+              data:this.doneData,
+              name:'Done',
+              class:'container-done'
+            },
+            product:{
+               data:this.productData,
+              name:'Product',
+              class:'container-product'
+            }
+          }
+        },
+        backlogData(){
+            return this.maindata.filter(filter=> filter.category =="backlog")
+        },
+        developmentData(){
+            return this.maindata.filter(filter=> filter.category =="development")
+        },
+        doneData(){
+            return this.maindata.filter(filter=> filter.category =="done")
+        },
+        productData(){
+            return this.maindata.filter(filter=> filter.category =="product")
+        }
+    },
+    
     data(){
     return{
         message:'hello vue',
@@ -131,7 +161,7 @@ export default {
                 data.data.forEach(ele=>{
                     this.maindata.push(ele)
                 })
-                console.log(this.maindata)
+                // console.log(this.maindata)
             })
         },
         deleteThisArray(id){

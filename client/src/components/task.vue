@@ -1,45 +1,30 @@
 <template>
-    <div class="anakolom">
-                <div class="container-done">
-                    <div >
-                        <p class="backlog" >Done</p>
-                    </div>
-                    <div class="ini">
-                        <!-- INI BUAT DI LOOP -->
-                        <div class="isi" v-for="i in doneData" v-bind:key="i.id" >  
-                            <div class="pContent">
-                                <span > {{i.description}}</span>
-                                <div style="display: flex; justify-content: flex-end;">
-                                    <img class='toggleImg' src="../style/png/zoom-in.png" @click="updateTrigger(i.id,`${i.description}`,`${i.category}`)" >
-                                    <img class='toggleImg' src="../style/png/garbage-1.png" @click="deleteData(`${i.id}`)" >
-                                </div>
-                            </div>
-                        </div>
-                        <!-- END  LOOP  -->
-                    </div>
-                </div>
-                 <editmodal :showModal="showModal" @toggleModal="toggleModal"  :dataEdit="dataEdit" @axiosPut="axiosPut"></editmodal >
-        </div>
-        
+   <div class="isi" >  
+      <div class="pContent" >
+          <span > {{data.description}}</span>
+          <div style="display: flex; justify-content: flex-end;">
+              <img class='toggleImg' src="../style/png/zoom-in.png" @click="updateTrigger(data.id,`${data.description}`,`${data.category}`)" >
+              <img class='toggleImg' src="../style/png/garbage-1.png" @click="deleteData(`${data.id}`)" >
+          </div>
+      </div>
+       <editmodal :showModal="showModal" @toggleModal="toggleModal"  :dataEdit="dataEdit" @axiosPut="axiosPut"></editmodal >
+  </div>
 </template>
-
 <script>
-import axios from 'axios'
 import editmodal from './edit_modal'
+import axios from 'axios'
 const localhost='http://localhost:3000/'
 export default {
-    props:['maindata'],
-    components:{
-        editmodal
-    },
-    computed:{
-        doneData(){
-            return this.maindata.filter(filter=> filter.category =="done")
-        }
-    },
-    methods:{
+  props: ['data'],
+  components: {
+    editmodal
+  },
+  methods:{
         deleteData(id){
-           Swal.fire({
+
+            //  delete this incase shit happen
+
+                Swal.fire({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
                     icon: 'warning',
@@ -77,6 +62,7 @@ export default {
         )
     }
     })
+
         },
         updateTrigger(id,description,category){
             // alert(` ini pencetan ${id}`)
@@ -109,13 +95,13 @@ export default {
                 this.toggleModal()
                 this.$emit("axiosGet")
             }).catch(err=>{
+                console.log(err)
                 Swal.fire({
                         title: 'Error!',
                         html:`Please Fill the Description`,
                         icon: 'error',
                         confirmButtonText: 'Ok'
                         })
-                console.log(err)
             })
         }
         
